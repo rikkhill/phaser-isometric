@@ -6,12 +6,14 @@ const path = require('path');
 module.exports = {
 
     entry: './src/index.js',
+    devtool: 'eval-source-map',
 
     output: {
         path: path.resolve(__dirname, 'build'),
         publicPath: '/build/',
         filename: 'project.bundle.js'
     },
+
 
     module: {
         rules: [
