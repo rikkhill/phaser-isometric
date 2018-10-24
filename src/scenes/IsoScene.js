@@ -16,42 +16,46 @@ export default class IsoScene extends Phaser.Scene {
     this.mapHeight = null;
     this.centerX = null;
     this.centerY = null;
+    this.point = new IsoPointFactory(this);
 
     // This probably shouldn't be null after construction
     this.mapData = null;
+
+    // We're grown-ups with debug graphics now!
+    this.debugGraphics = null;
+
   }
 
   // Converts tileSpace into isoSpace
-  project (x, y) {
-    const projX = this.centerX + ((x - y) * this.tileWidthHalf);
-    const projY = this.centerY + ((x + y) * this.tileHeightHalf);
+  project (coords) {
+    const projX = this.centerX + ((coords.x - coords.y) * this.tileWidthHalf);
+    const projY = this.centerY + ((coords.x + coords.y) * this.tileHeightHalf);
 
-    return [projX, projY];
+    return {x: projX, y: projY};
   };
 
   // Converts isoSpace into tileSpace
-  unproject(projX, projY) {
-    const xmy = (projX - this.centerX) / this.tileWidthHalf;
-    const xpy = (projY - this.centerY) / this.tileHeightHalf;
+  unproject(coords) {
+    const xmy = (coords.x - this.centerX) / this.tileWidthHalf;
+    const xpy = (coords.y - this.centerY) / this.tileHeightHalf;
 
-    return [(xmy + xpy) / 2, (xmy - xpy) / -2];
+    return {x: (xmy + xpy) / 2, y: (xmy - xpy) / -2};
   };
 
   // I am fairly sure having non-standard tileWidths and tileHeights
   // will cause this math to be wrong
-  tileToOrtho(x, y) {
-    return [x * this.tileHeight, y * this.tileHeight];
+  tileToOrtho(coords) {
+    return {x: coords.x * this.tileHeight, y: coords.y * this.tileHeight};
   }
 
-  orthoToTile(x, y) {
-    return [x / this.tileHeight, y / this.tileHeight];
+  orthoToTile(coords) {
+    return {x: coords.x / this.tileHeight, y: coords.y / this.tileHeight};
   }
 
   // Draws the map, layer by layer, onto the scene canvas
   buildMap() {
 
     let tileIndex, tileId;
-    console.log("Map data at buildMap() run:", this.mapData);
 
     this.mapWidth = this.mapData.layers[0].width;
     this.mapHeight = this.mapData.layers[0].height;
@@ -67,6 +71,9 @@ export default class IsoScene extends Phaser.Scene {
       // but skip the rendering process
       if(layer.name === "navmesh") {
         this.navMesh = this.navMeshPlugin.buildMeshFromTiled("mesh", layer, 10);
+
+        this.debugDrawMesh();
+
         continue;
       }
 
@@ -75,11 +82,15 @@ export default class IsoScene extends Phaser.Scene {
           tileId = layerData[tileIndex] - 1;
           // Add the image iff it's a real tile
           if(tileId >= 0) {
-            let [tx, ty] = this.project(x, y);
-            let tile = this.add.image(tx, ty, 'tiles', tileId);
+            let coords = this.point.fromTile({x, y}).world();
+            let tile = this.add.image(
+              coords.x,
+              coords.y + this.tileHeightHalf, // If we don't do this
+              'tiles',                        // the navmesh won't align
+              tileId);
 
             // Guarantee the highest layers get the highest depth
-            tile.depth = (ty) * (i + 1);
+            tile.depth = (coords.y) * (i + 1);
           }
 
           tileIndex++;
@@ -87,5 +98,168 @@ export default class IsoScene extends Phaser.Scene {
       }
     }
   };
+
+  getPath(startPoint, endPoint) {
+    // These should be IsoPoints, whose native representations
+    // are orth coordinates
+
+    const path = this.navMesh.findPath(startPoint, endPoint);
+
+    // Return early if we don't have a path
+    if(path === null) {
+      return [];
+    }
+
+    return path.map((c) => {
+      return this.point.fromOrtho(c);
+    });
+  }
+
+  enableDebug() {
+    window.scene = this;
+    if (!this.debugGraphics) {
+      this.debugGraphics = this.add.graphics(0, 0);
+    }
+
+    this.debugGraphics.visible = true;
+    this.debugGraphics.depth = 100000;
+
+    // Stick the scene in the browser namespace for debugging
+  }
+
+  disableDebug() {
+    if (this.debugGraphics) this.debugGraphics.visible = false;
+  }
+
+  debugDrawMesh({
+                  drawCentroid = true,
+                  drawBounds = false,
+                  drawNeighbors = true,
+                  drawPortals = true,
+                  palette = [0x00a0b0, 0x6a4a3c, 0xcc333f, 0xeb6841, 0xedc951]
+                } = {}) {
+    if (!this.debugGraphics) return;
+
+    const navPolys = this.navMesh.navMesh.getPolygons();
+
+    navPolys.forEach(poly => {
+      const color = palette[poly.id % palette.length];
+      this.debugGraphics.fillStyle(color);
+
+      const points = this.point.fromOrthoList(poly.getPoints()).map(c => c.world());
+
+      this.debugGraphics.fillPoints(points, true);
+
+      const centroid = this.point.fromOrtho(poly.centroid).world();
+
+      if (drawCentroid) {
+        this.debugGraphics.fillStyle(0x000000);
+        this.debugGraphics.fillCircle(centroid.x, centroid.y, 4);
+      }
+
+      if (drawBounds) {
+        this.debugGraphics.lineStyle(1, 0xffffff);
+        // N.B. this is wrong because we haven't figured out how to
+        // transform the bounding radius yet
+        this.debugGraphics.strokeEllipse(centroid.x, centroid.y, poly.boundingRadius, poly.boundingRadius/2);
+      }
+
+      if (drawNeighbors) {
+        this.debugGraphics.lineStyle(2, 0x000000);
+        poly.neighbors.forEach(n => {
+
+          const n_centroid = this.point.fromOrtho(n.centroid).world();
+
+          this.debugGraphics.lineBetween(
+            centroid.x,
+            centroid.y,
+            n_centroid.x,
+            n_centroid.y
+          );
+        });
+      }
+
+      if (drawPortals) {
+        this.debugGraphics.lineStyle(10, 0x000000);
+        poly.portals.forEach(portal => {
+          let start = this.point.fromOrtho(portal.start).world();
+          let end = this.point.fromOrtho(portal.end).world();
+          this.debugGraphics.lineBetween(start.x, start.y, end.x, end.y)
+        });
+      }
+    });
+  }
+
+  debugDrawPath(path, color = 0x00ff00, thickness = 2, alpha = 1) {
+    if (!this.debugGraphics) return;
+
+    if (path && path.length) {
+      // Draw line for path
+      this.debugGraphics.lineStyle(thickness, color, alpha);
+      this.debugGraphics.strokePoints(path);
+
+      // Draw circle at start and end of path
+      this.debugGraphics.fillStyle(color, alpha);
+      const d = 1.2 * thickness;
+      this.debugGraphics.fillCircle(path[0].x, path[0].y, d, d);
+
+      if (path.length > 1) {
+        const lastPoint = path[path.length - 1];
+        this.debugGraphics.fillCircle(lastPoint.x, lastPoint.y, d, d);
+      }
+    }
+  }
+
+
+}
+
+// Factory method for making points
+class IsoPointFactory {
+  constructor(scene) {
+    this.scene = scene;
+  }
+
+  fromWorld(point) {
+    const p = this.scene.tileToOrtho(this.scene.unproject(point));
+    return new IsoPoint(p.x, p.y, this.scene);
+  }
+
+  fromClick(e) {
+    const p = this.scene.tileToOrtho(this.scene.unproject({x: e.worldX, y: e.worldY}));
+    return new IsoPoint(p.x, p.y, this.scene);
+  }
+
+  fromTile(point) {
+    const p = this.scene.tileToOrtho(point);
+    return new IsoPoint(p.x, p.y, this.scene);
+  }
+
+  fromOrtho(point) {
+    return new IsoPoint(point.x, point.y, this.scene);
+  }
+
+  fromOrthoList(list) {
+    return list.map(point => this.fromOrtho(point));
+  }
+}
+
+class IsoPoint {
+  constructor(x, y, scene) {
+    this.x = x;
+    this.y = y;
+    this.scene = scene
+  }
+
+  world() {
+    return this.scene.project(this.scene.orthoToTile(this));
+  }
+
+  tile() {
+    return this.scene.orthoToTile(this);
+  }
+
+  ortho() {
+    return this;
+  }
 
 }

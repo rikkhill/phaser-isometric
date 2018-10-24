@@ -10,7 +10,6 @@ function euc(x1, x2, y1, y2) {
 
 function cardinal(x1, x2, y1, y2) {
   const angle = Phaser.Math.Angle.Between(x1, y1, x2, y2);
-  console.log(angle);
 
   if(angle > -Math.PI/8 && angle <= Math.PI / 8) {
     return "SouthEast";
@@ -34,4 +33,4 @@ function cardinal(x1, x2, y1, y2) {
 
 }
 
-export {cardinal, euc};
+export {euc, cardinal};

@@ -10,10 +10,12 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.direction = "South"; //config.direction;
     this.sheetWidth = 28;// config.sheetWidth;
-    this.heightOffset = 32;  // distance between centre of the sprite and it's feet
+    this.originY = 0.75;  // distance between centre of the sprite and it's feet
 
     // Speed in approximate tiles per second
     this.speed = 2;
+
+    this.moving = false;
 
     // A list of directions, ordered clockwise west to south west
     // (This should be their order on the sprite sheet)
@@ -73,38 +75,51 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   }
 
-  // Moves this sprite from x to y
-  move(x, y) {
+  // Return the x, y coords as a convenient object
+  position() {
+    return {x: this.x, y: this.y};
+  }
 
-    const [tileOldX, tileOldY] = this.scene.unproject(this.x, this.y);
-    const [tileNewX, tileNewY] = this.scene.unproject(x, y);
+  // Moves this sprite to these world coordinates
+  move(coords) {
 
-    const distance = euc(tileOldX, tileNewX, tileOldY, tileNewY);
-    this.direction = cardinal(tileOldX, tileNewX, tileOldY, tileNewY);
+    const oldCoords = this.scene.unproject({x: this.x, y: this.y});
+    const newCoords = this.scene.unproject(coords);
+
+    const distance = euc(oldCoords.x, newCoords.x, oldCoords.y, newCoords.y);
+    this.direction = cardinal(oldCoords.x, newCoords.x, oldCoords.y, newCoords.y);
     const duration = (distance) / (this.speed / 1000);
 
     // Stop the current movement tween
-    if(this.tween) {
-      this.tween.stop();
-    }
+    this.stop();
 
     // Start a new one
+    this.moving = true;
+
     this.tween = this.scene.tweens.add({
       targets: this,
-      x: x,
-      y: y - this.heightOffset,
+      x: coords.x,
+      y: coords.y,
       onStart: function (t, spriteArray) {
-        console.log("arguments of onStart", arguments);
         const sprite = spriteArray[0];
         sprite.anims.play(sprite.name + "Walk" + sprite.direction);
       },
       onComplete: function (t, spriteArray) {
         const sprite = spriteArray[0];
+        sprite.moving = false;
         sprite.anims.play(sprite.name + "Idle" + sprite.direction);
+
       },
       duration: duration,
     });
 
+  }
+
+  stop() {
+    if(this.tween) {
+      this.tween.stop();
+      this.moving = false;
+    }
   }
 
 }

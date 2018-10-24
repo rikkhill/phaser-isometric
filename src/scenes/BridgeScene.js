@@ -11,7 +11,6 @@ export default class BridgeScene extends IsoScene {
   }
 
   preload() {
-    console.log("Preload of BridgeScene");
     this.load.json('map', 'assets/isomap_1.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
@@ -19,6 +18,8 @@ export default class BridgeScene extends IsoScene {
 
   create() {
     this.mapData =  this.cache.json.get('map');
+
+    //this.enableDebug();
 
     this.buildMap();
 
@@ -28,15 +29,58 @@ export default class BridgeScene extends IsoScene {
     this.cameras.main.zoom = 0.8;
 
     // Add sprite
-    let [startX, startY] = this.project(1, 5);
-    const character = new MovableSprite({scene: this, x: startX, y: startY, key: 'skeleton'});
+    let start = this.project({x: 1, y: 5});
+    const character = new MovableSprite({scene: this, x: start.x, y: start.y, key: 'skeleton'});
+
+    this.charMovement = new MovementTracker(character);
 
     this.input.on('pointerdown', function(pointer) {
-      let wX = pointer.worldX;
-      let wY = pointer.worldY;
-      character.move(wX, wY);
 
+      // Get orthogonal positions for character start and end
+      let charFrom = this.point.fromWorld(character.position());
+      let charTo = this.point.fromClick(pointer);
 
+      const path = this.getPath(charFrom, charTo);
+
+      if(path.length > 0) {
+        this.charMovement.setPath(path);
+      } else {
+        console.log("No path!");
+        // Some sort of message needs to go here
+      }
     }, this);
+  }
+
+  update() {
+    // Check to see if we need to move
+    this.charMovement.checkMovement();
+  }
+}
+
+class MovementTracker {
+  constructor(sprite) {
+    this.sprite = sprite;
+    this.movementQueue = [];
+  }
+
+  setPath(path) {
+    // If the sprite is moving, stop it moving
+    this.sprite.stop();
+
+    const worldPath = path.map(c => c.world());
+    //this.sprite.scene.debugDrawPath(worldPath);
+
+    // The path includes the sprite's current location
+    // so we should decapitate the queue first
+    this.movementQueue = path.slice(1);
+  }
+
+  checkMovement() {
+    if(!this.sprite.moving && this.movementQueue.length > 0) {
+      this.sprite.move(this.movementQueue.shift().world());
+      return true;
+    } else {
+      return false;
+    }
   }
 }
