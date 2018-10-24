@@ -77,6 +77,8 @@ export default class IsoScene extends Phaser.Scene {
         continue;
       }
 
+      console.log("Layer rendering:", i, layer);
+
       for(let y = 0; y < this.mapHeight; y++) {
         for(let x = 0; x < this.mapWidth; x++) {
           tileId = layerData[tileIndex] - 1;
@@ -122,7 +124,6 @@ export default class IsoScene extends Phaser.Scene {
     }
 
     this.debugGraphics.visible = true;
-    this.debugGraphics.depth = 100000;
 
     // Stick the scene in the browser namespace for debugging
   }
@@ -139,6 +140,8 @@ export default class IsoScene extends Phaser.Scene {
                   palette = [0x00a0b0, 0x6a4a3c, 0xcc333f, 0xeb6841, 0xedc951]
                 } = {}) {
     if (!this.debugGraphics) return;
+
+    this.debugGraphics.depth = 5 * this.tileWidth * this.mapWidth;
 
     const navPolys = this.navMesh.navMesh.getPolygons();
 
@@ -214,6 +217,10 @@ export default class IsoScene extends Phaser.Scene {
 }
 
 // Factory method for making points
+// Since we're working in three different coordinate systems,
+// (the tile space, the orthogonal space,and the isometric coordinates),
+// we will make the deliberate choice to represent all points as orthogonal
+// coordinates, and then have conversion methods to and from other spaces
 class IsoPointFactory {
   constructor(scene) {
     this.scene = scene;

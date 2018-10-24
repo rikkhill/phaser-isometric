@@ -11,6 +11,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.direction = "South"; //config.direction;
     this.sheetWidth = 28;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
+    this.level = config.level; // The sprite's "height" in the map layers
+    this.depthBonus = 0;  // Mostly for debugging
 
     // Speed in approximate tiles per second
     this.speed = 2;
@@ -32,7 +34,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
     this.anims.play(this.name + "IdleSouth");
 
-    this.depth = 100000;
+    this.depth = this.y * this.level + this.depthBonus;
 
     this.scene.add.existing(this);
     this.create();
@@ -100,6 +102,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
       targets: this,
       x: coords.x,
       y: coords.y,
+      depth: coords.y * this.level + this.depthBonus,
       onStart: function (t, spriteArray) {
         const sprite = spriteArray[0];
         sprite.anims.play(sprite.name + "Walk" + sprite.direction);

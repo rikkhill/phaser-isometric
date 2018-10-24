@@ -30,7 +30,13 @@ export default class BridgeScene extends IsoScene {
 
     // Add sprite
     let start = this.project({x: 1, y: 5});
-    const character = new MovableSprite({scene: this, x: start.x, y: start.y, key: 'skeleton'});
+    const character = new MovableSprite({
+      scene: this,
+      x: start.x,
+      y: start.y,
+      key: 'skeleton',
+      level: 5,  // the tile layer the sprite is level with
+    });
 
     this.charMovement = new MovementTracker(character);
 
