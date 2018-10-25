@@ -12,7 +12,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.sheetWidth = 28;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
-    this.depthBonus = 0;  // Mostly for debugging
+    this.depthBonus = 10;  // Make the sprite appear in front of environmental objects
+                           // it's standing next to, to help prevent clipping
 
     // Speed in approximate tiles per second
     this.speed = 2;

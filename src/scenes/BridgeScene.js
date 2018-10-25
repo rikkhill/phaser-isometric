@@ -55,6 +55,12 @@ export default class BridgeScene extends IsoScene {
         // Some sort of message needs to go here
       }
     }, this);
+
+
+
+
+
+
   }
 
   update() {

@@ -1,4 +1,6 @@
 import 'phaser';
+import {objToPoints} from '../spaceHelpers';
+import {pointsToGeomPoints} from '../spaceHelpers';
 
 // Base class for isometric map scenes
 export default class IsoScene extends Phaser.Scene {
@@ -72,12 +74,22 @@ export default class IsoScene extends Phaser.Scene {
       if(layer.name === "navmesh") {
         this.navMesh = this.navMeshPlugin.buildMeshFromTiled("mesh", layer, 10);
 
-        this.debugDrawMesh();
+        for(let obj of layer.objects) {
+
+          let polygonPoints = this.point
+            .fromOrthoList(objToPoints(obj))
+            .map(c => c.world());
+
+          // Polygon for mouseover purposes
+          this.placePolygon({
+            points: polygonPoints,
+            depth: this.mapHeight * (i + 1),
+            cursor: 'crosshair',
+            alpha: 0.001});
+        }
 
         continue;
       }
-
-      console.log("Layer rendering:", i, layer);
 
       for(let y = 0; y < this.mapHeight; y++) {
         for(let x = 0; x < this.mapWidth; x++) {
@@ -101,6 +113,23 @@ export default class IsoScene extends Phaser.Scene {
     }
   };
 
+
+  // Place an invisible polygon on a graphic overlay
+  placePolygon(config) {
+    const graphic = this.add.graphics(0, 0);
+    graphic.fillStyle(0x44ff44);
+    graphic.alpha = config.alpha;
+    graphic.fillPoints(config.points);
+    graphic.depth = config.depth;
+    graphic.setInteractive({
+      hitArea: new Phaser.Geom.Polygon(config.points),
+      hitAreaCallback: Phaser.Geom.Polygon.Contains,
+      cursor: config.cursor || "default",
+    });
+    return graphic;
+  }
+
+  // Get a path along the NavMesh
   getPath(startPoint, endPoint) {
     // These should be IsoPoints, whose native representations
     // are orth coordinates
@@ -117,15 +146,18 @@ export default class IsoScene extends Phaser.Scene {
     });
   }
 
+
+
+  // Debug methods
+
   enableDebug() {
+    // Stick the scene in the browser namespace for debugging
     window.scene = this;
     if (!this.debugGraphics) {
       this.debugGraphics = this.add.graphics(0, 0);
     }
 
     this.debugGraphics.visible = true;
-
-    // Stick the scene in the browser namespace for debugging
   }
 
   disableDebug() {
@@ -268,5 +300,4 @@ class IsoPoint {
   ortho() {
     return this;
   }
-
 }
