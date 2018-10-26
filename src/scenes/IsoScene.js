@@ -173,7 +173,7 @@ export default class IsoScene extends Phaser.Scene {
           console.log(obj);
           let focus = this.point.fromOrtho(obj.properties);
           let points = objToPoints(obj);
-          this.registerShotArea(points, focus);
+          this.registerShotArea(obj.properties.name, points, focus);
         }
         continue;
       }
@@ -205,15 +205,29 @@ export default class IsoScene extends Phaser.Scene {
     return true;
   }
 
-  registerShotArea(points, focus) {
-    this.shotAreas.push({bounds: new Phaser.Geom.Polygon(points), focus: focus});
+  registerShotArea(name, points, focus) {
+    this.shotAreas.push({
+      name: name,
+      bounds: new Phaser.Geom.Polygon(points),
+      focus: focus
+    });
   }
 
   checkShotAreas(sprite) {
     for(let area of this.shotAreas) {
       if(Phaser.Geom.Polygon.Contains(area.bounds, sprite.x, sprite.y)) {
-        this.cameras.main.scrollX = area.focus.x;
-        //this.cameras.main.centerY = area.focus.y;
+        if(sprite.zone !== area.name) {
+          this.tweens.add({
+            targets: this.cameras.main,
+            scrollX: area.focus.x,
+            duration: 500
+          });
+          sprite.zone = area.name;
+        }
+
+        // If we've matched the shot area, it's not going to be another one
+        // so break the loop
+        break;
       }
     }
   }

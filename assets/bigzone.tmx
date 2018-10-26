@@ -112,18 +112,21 @@
  <objectgroup name="shotarea">
   <object id="4" x="0" y="0" width="704" height="496">
    <properties>
+    <property name="name" value="left"/>
     <property name="x" value="250"/>
     <property name="y" value="250"/>
    </properties>
   </object>
   <object id="5" x="704" y="0" width="608" height="496">
    <properties>
+    <property name="name" value="middle"/>
     <property name="x" value="750"/>
     <property name="y" value="250"/>
    </properties>
   </object>
   <object id="8" x="1312" y="0" width="640" height="496">
    <properties>
+    <property name="name" value="right"/>
     <property name="x" value="1000"/>
     <property name="y" value="250"/>
    </properties>

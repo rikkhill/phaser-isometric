@@ -9,6 +9,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.name = config.key;
     this.scene = config.scene;
     this.direction = "South"; //config.direction;
+    this.zone = "default";
     this.sheetWidth = 28;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers

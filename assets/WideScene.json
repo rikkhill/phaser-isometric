@@ -73,11 +73,13 @@
                  "name":"",
                  "properties":
                     {
+                     "name":"left",
                      "x":"250",
                      "y":"250"
                     },
                  "propertytypes":
                     {
+                     "name":"string",
                      "x":"string",
                      "y":"string"
                     },
@@ -94,11 +96,13 @@
                  "name":"",
                  "properties":
                     {
+                     "name":"middle",
                      "x":"750",
                      "y":"250"
                     },
                  "propertytypes":
                     {
+                     "name":"string",
                      "x":"string",
                      "y":"string"
                     },
@@ -115,11 +119,13 @@
                  "name":"",
                  "properties":
                     {
+                     "name":"right",
                      "x":"1000",
                      "y":"250"
                     },
                  "propertytypes":
                     {
+                     "name":"string",
                      "x":"string",
                      "y":"string"
                     },

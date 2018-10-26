@@ -26,8 +26,6 @@ export default class WideScene extends IsoScene {
 
     //this.debugDrawMesh();
 
-    console.log(this.shotAreas);
-
     // Centre the camera on the scene
     this.cameras.main.scrollX = this.mapWidth / 2 + 100;
     this.cameras.main.scrollY = this.mapHeight / 2;
