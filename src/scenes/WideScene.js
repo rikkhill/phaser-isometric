@@ -1,18 +1,18 @@
 import MovableSprite from "../MovableSprite";
 import IsoScene from "./IsoScene";
 
-export default class BridgeScene extends IsoScene {
+export default class WideScene extends IsoScene {
   constructor() {
     super({
-      key: 'BridgeScene',
-      mapProjection: "square",
+      key: 'WideScene',
+      mapProjection: "staggered",
       tileWidth: 64,
       tileHeight: 32,
     });
   }
 
   preload() {
-    this.load.json('map', 'assets/isomap_1.json');
+    this.load.json('map', 'assets/WideScene.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
   }
@@ -22,12 +22,16 @@ export default class BridgeScene extends IsoScene {
 
     //this.enableDebug();
 
-    this.buildMap();
+    this.buildStaggeredMap();
+
+    //this.debugDrawMesh();
+
+    console.log(this.shotAreas);
 
     // Centre the camera on the scene
     this.cameras.main.scrollX = this.mapWidth / 2 + 100;
     this.cameras.main.scrollY = this.mapHeight / 2;
-    this.cameras.main.zoom = 0.8;
+    this.cameras.main.zoom = 0.6;
 
     // Add sprite
     let start = this.project({x: 1, y: 5});
@@ -61,6 +65,6 @@ export default class BridgeScene extends IsoScene {
   update() {
     // Check to see if we need to move
     this.PC.movement.checkMovement();
+    this.checkShotAreas(this.PC);
   }
 }
-

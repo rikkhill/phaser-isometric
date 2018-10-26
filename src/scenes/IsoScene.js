@@ -14,10 +14,15 @@ export default class IsoScene extends Phaser.Scene {
     this.tileHeight = config.tileHeight;
     this.tileWidthHalf = this.tileWidth / 2;
     this.tileHeightHalf = this.tileHeight / 2;
+    this.mapProjection = config.mapProjection;
+    this.shotAreas = [];
     this.mapWidth = null;
     this.mapHeight = null;
     this.centerX = null;
     this.centerY = null;
+
+    this.mapBuilt = false;
+
     this.point = new IsoPointFactory(this);
 
     // This probably shouldn't be null after construction
@@ -56,6 +61,10 @@ export default class IsoScene extends Phaser.Scene {
 
   // Draws the map, layer by layer, onto the scene canvas
   buildMap() {
+
+    if(this.mapBuilt){
+      return false;
+    }
 
     let tileIndex, tileId;
 
@@ -111,7 +120,103 @@ export default class IsoScene extends Phaser.Scene {
         }
       }
     }
-  };
+
+    this.mapBuilt = true;
+    return true;
+  }
+
+  // If our map is staggered instead of square
+  // we have to built it differently
+  buildStaggeredMap() {
+
+    if(this.mapBuilt) {
+      return false;
+    }
+
+    let tileIndex, tileId;
+
+    this.mapWidth = this.mapData.layers[0].width;
+    this.mapHeight = this.mapData.layers[0].height;
+    this.centerX = this.mapWidth * this.tileWidthHalf;
+    this.centerY = (this.mapHeight * this.tileHeightHalf) / 2;
+
+    for (const [i, layer] of this.mapData.layers.entries()) {
+
+      let layerData = layer.data;
+      tileIndex = 0;
+
+      // TODO: refactor this into a switch/case or something
+
+      // If it's a navmesh layer, build the mesh
+      // but skip the rendering process
+      if(layer.name === "navmesh") {
+        this.navMesh = this.navMeshPlugin.buildMeshFromTiled("mesh", layer, 10);
+
+        for(let obj of layer.objects) {
+
+          let polygonPoints = this.point
+            .fromOrthoList(objToPoints(obj));
+
+          // Polygon for mouseover purposes
+          this.placePolygon({
+            points: polygonPoints,
+            depth: this.mapHeight * (i + 2),
+            cursor: 'crosshair',
+            alpha: 0.001});
+        }
+
+        continue;
+      }
+
+      if(layer.name === "shotarea") {
+        for(let obj of layer.objects) {
+          console.log(obj);
+          let focus = this.point.fromOrtho(obj.properties);
+          let points = objToPoints(obj);
+          this.registerShotArea(points, focus);
+        }
+        continue;
+      }
+
+      for(let y = 0; y < this.mapHeight; y++) {
+        let even = y % 2 === 0;
+        let xOffset = even ? 0 : this.tileWidthHalf;
+        let yOffset = y * this.tileHeightHalf;
+        for(let x = 0; x < this.mapWidth; x++) {
+          tileId = layerData[tileIndex] - 1;
+          // Add the image iff it's a real tile
+          if(tileId >= 0) {
+            let tile = this.add.image(
+              x * this.tileWidth  + xOffset + this.tileWidthHalf,
+              y * this.tileHeight - yOffset + this.tileHeightHalf,
+              'tiles',
+              tileId);
+
+            // Guarantee the highest layers get the highest depth
+            tile.depth = (y * this.tileHeight) * (i + 1);
+          }
+
+          tileIndex++;
+        }
+      }
+    }
+
+    this.mapBuilt = true;
+    return true;
+  }
+
+  registerShotArea(points, focus) {
+    this.shotAreas.push({bounds: new Phaser.Geom.Polygon(points), focus: focus});
+  }
+
+  checkShotAreas(sprite) {
+    for(let area of this.shotAreas) {
+      if(Phaser.Geom.Polygon.Contains(area.bounds, sprite.x, sprite.y)) {
+        this.cameras.main.scrollX = area.focus.x;
+        //this.cameras.main.centerY = area.focus.y;
+      }
+    }
+  }
 
 
   // Place an invisible polygon on a graphic overlay
@@ -158,6 +263,7 @@ export default class IsoScene extends Phaser.Scene {
     }
 
     this.debugGraphics.visible = true;
+    this.debugGraphics.alpha = 0.4
   }
 
   disableDebug() {
@@ -256,16 +362,28 @@ export default class IsoScene extends Phaser.Scene {
 class IsoPointFactory {
   constructor(scene) {
     this.scene = scene;
+
+    if(this.scene.mapProjection === "square") {
+      this.fromWorld = this.fromIsoWorld;
+      this.fromClick = this.fromIsoClick;
+    } else {
+      this.fromWorld = this.fromOrtho;
+      this.fromClick = this.fromOrthoClick;
+    }
   }
 
-  fromWorld(point) {
+  fromIsoWorld(point) {
     const p = this.scene.tileToOrtho(this.scene.unproject(point));
     return new IsoPoint(p.x, p.y, this.scene);
   }
 
-  fromClick(e) {
+  fromIsoClick(e) {
     const p = this.scene.tileToOrtho(this.scene.unproject({x: e.worldX, y: e.worldY}));
     return new IsoPoint(p.x, p.y, this.scene);
+  }
+
+  fromOrthoClick(e) {
+    return new IsoPoint(e.worldX, e.worldY, this.scene);
   }
 
   fromTile(point) {
@@ -286,10 +404,16 @@ class IsoPoint {
   constructor(x, y, scene) {
     this.x = x;
     this.y = y;
-    this.scene = scene
+    this.scene = scene;
+
+    if(this.scene.mapProjection === "square"){
+      this.world = this.isoWorld;
+    } else {
+      this.world = this.ortho;
+    }
   }
 
-  world() {
+  isoWorld() {
     return this.scene.project(this.scene.orthoToTile(this));
   }
 

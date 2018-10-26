@@ -15,6 +15,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.depthBonus = 10;  // Make the sprite appear in front of environmental objects
                            // it's standing next to, to help prevent clipping
 
+    this.movement = new MovementTracker(this);
+
     // Speed in approximate tiles per second
     this.speed = 2;
 
@@ -126,4 +128,33 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     }
   }
 
+}
+
+
+class MovementTracker {
+  constructor(sprite) {
+    this.sprite = sprite;
+    this.movementQueue = [];
+  }
+
+  setPath(path) {
+    // If the sprite is moving, stop it moving
+    this.sprite.stop();
+
+    //const worldPath = path.map(c => c.world());
+    //this.sprite.scene.debugDrawPath(worldPath);
+
+    // The path includes the sprite's current location
+    // so we should decapitate the queue first
+    this.movementQueue = path.slice(1);
+  }
+
+  checkMovement() {
+    if(!this.sprite.moving && this.movementQueue.length > 0) {
+      this.sprite.move(this.movementQueue.shift().world());
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
