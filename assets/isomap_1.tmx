@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="right-down" width="15" height="15" tilewidth="64" tileheight="32" infinite="0" nextobjectid="172">
+<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="right-down" width="15" height="15" tilewidth="64" tileheight="32" infinite="0" nextobjectid="179">
  <tileset firstgid="1" name="grass" tilewidth="64" tileheight="32" tilecount="672" columns="16">
   <image source="grassland_tiles.png" width="1024" height="1344"/>
   <terraintypes>
@@ -96,7 +96,7 @@
 0,0,0,0,0,0,0,0,0,0,243,3,6,6,13
 </data>
  </layer>
- <objectgroup name="navmesh">
+ <objectgroup name="navmesh" visible="0">
   <object id="149" x="6.4" y="268.8" width="147.2" height="172.8"/>
   <object id="150" x="-19.2" y="217.6"/>
   <object id="151" x="6.4" y="211.2" width="44.8" height="57.6"/>
@@ -176,4 +176,38 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="portalZones">
+  <object id="172" x="6.4" y="390.4" width="140.8" height="51.2">
+   <properties>
+    <property name="destination" value="FourCheeseScene"/>
+    <property name="x" value="10"/>
+    <property name="y" value="10"/>
+   </properties>
+  </object>
+  <object id="174" x="6.4" y="6.4" width="89.6" height="44.8">
+   <properties>
+    <property name="destination" value="WideScene"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="stageMarkers">
+  <object id="175" x="51.2" y="64">
+   <properties>
+    <property name="name" value="entryFromWideScene"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="176" x="64" y="364.8">
+   <properties>
+    <property name="name" value="entryFromFourCheeseScene"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="178" x="422.4" y="249.6">
+   <properties>
+    <property name="name" value="start"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>

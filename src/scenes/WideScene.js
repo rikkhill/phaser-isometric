@@ -12,17 +12,18 @@ export default class WideScene extends IsoScene {
   }
 
   preload() {
-    this.load.json('map', 'assets/WideScene.json');
+    this.load.json(this.key + 'Map', 'assets/WideScene.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
   }
 
-  create() {
-    this.mapData =  this.cache.json.get('map');
+  create(state) {
+    this.state = state;
+    this.mapData =  this.cache.json.get(this.key + 'Map');
 
     //this.enableDebug();
 
-    this.buildStaggeredMap();
+    this.buildMap();
 
     //this.debugDrawMesh();
 
@@ -32,7 +33,7 @@ export default class WideScene extends IsoScene {
     this.cameras.main.zoom = 0.6;
 
     // Add sprite
-    let start = this.project({x: 1, y: 5});
+    let start = this.getEntryPoint().world();
     this.PC = new MovableSprite({
       scene: this,
       x: start.x,
@@ -63,6 +64,7 @@ export default class WideScene extends IsoScene {
   update() {
     // Check to see if we need to move
     this.PC.movement.checkMovement();
-    this.checkShotAreas(this.PC);
+    this.cameraZones.checkZones(this.PC);
+    this.portalZones.checkZones(this.PC);
   }
 }

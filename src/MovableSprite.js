@@ -9,7 +9,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.name = config.key;
     this.scene = config.scene;
     this.direction = "South"; //config.direction;
-    this.zone = "default";
+    this.cameraZone = "default";
+    this.portalZone = "none";
     this.sheetWidth = 28;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
@@ -48,6 +49,10 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
   }
 
   registerAnims() {
+    // Don't register this sprite's anims if it already has them
+    if(this.scene.anims.get(this.name + "WalkWest")) {
+      return;
+    }
 
     // Create animations for all walking directions
     this.directions.forEach((c, i, a) => {
@@ -88,7 +93,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   // Moves this sprite to these world coordinates
   move(coords) {
-
+    console.log("movement happening in: ", this.scene);
     const oldCoords = this.scene.unproject({x: this.x, y: this.y});
     const newCoords = this.scene.unproject(coords);
 

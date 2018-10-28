@@ -68,7 +68,7 @@
                  "type":"",
                  "visible":true,
                  "width":44.8,
-                 "x":6.40000000000002,
+                 "x":6.4,
                  "y":211.2
                 }, 
                 {
@@ -90,7 +90,7 @@
                  "type":"",
                  "visible":true,
                  "width":102.4,
-                 "x":6.39999999999999,
+                 "x":6.4,
                  "y":96
                 }, 
                 {
@@ -190,7 +190,7 @@
                  "visible":true,
                  "width":89.6,
                  "x":384,
-                 "y":6.39999999999998
+                 "y":6.4
                 }, 
                 {
                  "height":0,
@@ -212,7 +212,7 @@
                  "visible":true,
                  "width":32,
                  "x":352,
-                 "y":6.40000000000001
+                 "y":6.4
                 }, 
                 {
                  "height":0,
@@ -256,7 +256,7 @@
                  "visible":true,
                  "width":25.6,
                  "x":294.4,
-                 "y":6.39999999999998
+                 "y":6.4
                 }, 
                 {
                  "height":0,
@@ -271,7 +271,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -307,8 +307,130 @@
          "width":15,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"portalZones",
+         "objects":[
+                {
+                 "height":51.2,
+                 "id":172,
+                 "name":"",
+                 "properties":
+                    {
+                     "destination":"FourCheeseScene",
+                     "x":"10",
+                     "y":"10"
+                    },
+                 "propertytypes":
+                    {
+                     "destination":"string",
+                     "x":"string",
+                     "y":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":140.8,
+                 "x":6.39999999999998,
+                 "y":390.4
+                }, 
+                {
+                 "height":44.8,
+                 "id":174,
+                 "name":"",
+                 "properties":
+                    {
+                     "destination":"WideScene"
+                    },
+                 "propertytypes":
+                    {
+                     "destination":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":89.6,
+                 "x":6.4,
+                 "y":6.4
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"stageMarkers",
+         "objects":[
+                {
+                 "height":0,
+                 "id":175,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"entryFromWideScene"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":51.2,
+                 "y":64
+                }, 
+                {
+                 "height":0,
+                 "id":176,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"entryFromFourCheeseScene"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":364.8
+                }, 
+                {
+                 "height":0,
+                 "id":178,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"start"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":422.4,
+                 "y":249.6
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":172,
+ "nextobjectid":179,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",

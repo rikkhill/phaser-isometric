@@ -1,10 +1,10 @@
 import MovableSprite from "../MovableSprite";
 import IsoScene from "./IsoScene";
 
-export default class BridgeScene extends IsoScene {
+export default class FourCheeseScene extends IsoScene {
   constructor() {
     super({
-      key: 'BridgeScene',
+      key: 'FourCheeseScene',
       mapProjection: "isometric",
       tileWidth: 64,
       tileHeight: 32,
@@ -12,15 +12,16 @@ export default class BridgeScene extends IsoScene {
   }
 
   preload() {
-    this.load.json(this.key + 'Map', 'assets/isomap_1.json');
+    this.load.json(this.key + 'Map', 'assets/FourCheeseScene.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
   }
 
-  create(state) {
-    this.state = state;
-    console.log("BridgeScene created!");
-    console.log("Scene loaded with state: ", state);
+  create(data) {
+    console.log("FourCheeseScene created!");
+    console.log("Scene started with data:", data);
+    //this.scene.bringToTop();
+    window.scene = this;
     this.mapData =  this.cache.json.get(this.key + 'Map');
 
     //this.enableDebug();
@@ -28,12 +29,12 @@ export default class BridgeScene extends IsoScene {
     this.buildMap();
 
     // Centre the camera on the scene
-    this.cameras.main.scrollX = this.mapWidth / 2 + 100;
-    this.cameras.main.scrollY = this.mapHeight / 2;
+    this.cameras.main.scrollX = 1200;
+    this.cameras.main.scrollY = 400;
     this.cameras.main.zoom = 0.8;
 
     // Add sprite
-    let start = this.getEntryPoint().world();
+    let start = this.project({x: 1, y: 5});
     this.PC = new MovableSprite({
       scene: this,
       x: start.x,
@@ -65,6 +66,7 @@ export default class BridgeScene extends IsoScene {
     // Check to see if we need to move
     this.PC.movement.checkMovement();
     this.portalZones.checkZones(this.PC);
+    this.cameraZones.checkZones(this.PC);
   }
 }
 
