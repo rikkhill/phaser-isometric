@@ -1,5 +1,6 @@
 import 'phaser';
 import PhaserNavMeshPlugin from "phaser-navmesh";
+import HUD from "./scenes/HUD";
 import BridgeScene from "./scenes/BridgeScene";
 import FourCheeseScene from "./scenes/FourCheeseScene";
 import WideScene from "./scenes/WideScene";
@@ -22,9 +23,9 @@ const config = {
         }
       ]
     },
-    scene: [BridgeScene, FourCheeseScene, WideScene]
+    scene: [HUD, BridgeScene, FourCheeseScene, WideScene]
 
 };
 
 window.game = new Phaser.Game(config);
-//game.scene.start('FourCheeseScene', {a: "yo", b: "dude"});
+game.scene.start('BridgeScene', {a: "yo", b: "dude"});

@@ -19,18 +19,13 @@ export default class BridgeScene extends IsoScene {
 
   create(state) {
     this.state = state;
-    console.log("BridgeScene created!");
-    console.log("Scene loaded with state: ", state);
     this.mapData =  this.cache.json.get(this.key + 'Map');
 
     //this.enableDebug();
 
     this.buildMap();
 
-    // Centre the camera on the scene
-    this.cameras.main.scrollX = this.mapWidth / 2 + 100;
-    this.cameras.main.scrollY = this.mapHeight / 2;
-    this.cameras.main.zoom = 0.8;
+
 
     // Add sprite
     let start = this.getEntryPoint().world();
@@ -41,6 +36,11 @@ export default class BridgeScene extends IsoScene {
       key: 'skeleton',
       level: 5,  // the tile layer the sprite is level with
     });
+
+    // Centre the camera on the scene
+    const cameraStart = this.stageMarkers["cameraStart"].world();
+    this.cameras.main.scrollX = cameraStart.x - this.centerX + this.tileWidth;
+    this.cameras.main.scrollY = (cameraStart.y - this.centerY * 2);
 
 
     this.input.on('pointerdown', function(pointer) {

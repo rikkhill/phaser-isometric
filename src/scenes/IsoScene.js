@@ -337,7 +337,6 @@ export default class IsoScene extends Phaser.Scene {
 
     // The worst this can return is undefined, which we'll check for
     return this.stageMarkers.start;
-
   }
 
 
