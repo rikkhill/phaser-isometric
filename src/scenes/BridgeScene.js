@@ -25,8 +25,6 @@ export default class BridgeScene extends IsoScene {
 
     this.buildMap();
 
-
-
     // Add sprite
     let start = this.getEntryPoint().world();
     this.PC = new MovableSprite({
@@ -41,23 +39,6 @@ export default class BridgeScene extends IsoScene {
     const cameraStart = this.stageMarkers["cameraStart"].world();
     this.cameras.main.scrollX = cameraStart.x - this.centerX + this.tileWidth;
     this.cameras.main.scrollY = (cameraStart.y - this.centerY * 2);
-
-
-    this.input.on('pointerdown', function(pointer) {
-
-      // Get orthogonal positions for character start and end
-      let charFrom = this.point.fromWorld(this.PC.position());
-      let charTo = this.point.fromClick(pointer);
-
-      const path = this.getPath(charFrom, charTo);
-
-      if(path.length > 0) {
-        this.PC.movement.setPath(path);
-      } else {
-        console.log("No path!");
-        // Some sort of message needs to go here
-      }
-    }, this);
 
   }
 

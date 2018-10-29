@@ -9,12 +9,13 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.name = config.key;
     this.scene = config.scene;
     this.direction = "South"; //config.direction;
+    this.finalDirection = "South";
     this.cameraZone = "default";
     this.portalZone = "none";
     this.sheetWidth = 28;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
-    this.depthBonus = 10;  // Make the sprite appear in front of environmental objects
+    this.depthBonus = 1;  // Make the sprite appear in front of environmental objects
                            // it's standing next to, to help prevent clipping
 
     this.movement = new MovementTracker(this);
@@ -42,10 +43,42 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.depth = this.y * this.level + this.depthBonus;
 
     this.scene.add.existing(this);
-    this.create();
 
+    this.scene.events.on("walkablesurfaceclicked", (pointer) => {
+      // Get orthogonal positions for character start and end
+      let charFrom = this.scene.point.fromWorld(this.position());
+      let charTo = this.scene.point.fromClick(pointer);
+
+      const path = this.scene.getPath(charFrom, charTo);
+
+      if(path.length > 0) {
+        this.movement.setPath(path);
+      } else {
+        console.log("No path!");
+        // Some sort of message needs to go here
+      }
+
+    });
+
+    this.scene.events.on("interactableclicked", (interactable) => {
+      // Get orthogonal positions for character start and end
+      let charFrom = this.scene.point.fromWorld(this.position());
+      let charTo = this.scene.point.fromWorld(interactable.standpoint);
+
+      const path = this.scene.getPath(charFrom, charTo);
+      this.finalDirection = interactable.facing;
+
+      if(path.length > 0) {
+        this.movement.setPath(path);
+      } else {
+        console.log("No path!");
+        // Some sort of message needs to go here
+      }
+
+    });
     // Miscellaneous stuff we need to exist beforehand
     this.tween = null;
+
   }
 
   registerAnims() {
@@ -83,7 +116,6 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
   }
 
   create() {
-
   }
 
   // Return the x, y coords as a convenient object
@@ -93,7 +125,6 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   // Moves this sprite to these world coordinates
   move(coords) {
-    console.log("movement happening in: ", this.scene);
     const oldCoords = this.scene.unproject({x: this.x, y: this.y});
     const newCoords = this.scene.unproject(coords);
 

@@ -4,6 +4,7 @@ import HUD from "./scenes/HUD";
 import BridgeScene from "./scenes/BridgeScene";
 import FourCheeseScene from "./scenes/FourCheeseScene";
 import WideScene from "./scenes/WideScene";
+import InteractionScene from "./scenes/InteractionScene";
 import TestScene from "./scenes/TestScene";
 import MovableSprite from "./MovableSprite";
 import {cardinal} from './spaceHelpers';
@@ -23,9 +24,15 @@ const config = {
         }
       ]
     },
-    scene: [HUD, BridgeScene, FourCheeseScene, WideScene]
+    scene: [
+      HUD,
+      InteractionScene,
+      BridgeScene,
+      FourCheeseScene,
+      WideScene
+    ]
 
 };
 
 window.game = new Phaser.Game(config);
-game.scene.start('BridgeScene', {a: "yo", b: "dude"});
+game.scene.start('InteractionScene', {a: "yo", b: "dude"});

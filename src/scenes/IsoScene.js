@@ -23,6 +23,8 @@ export default class IsoScene extends Phaser.Scene {
     this.centerX = null;
     this.centerY = null;
 
+    this.PC = null;
+
     // The game state. It will get this on create
     this.state = {};
 
@@ -83,9 +85,7 @@ export default class IsoScene extends Phaser.Scene {
   // my gradual understanding of how scene lifecycles work
   // more than it represents a sensible way to build the map
   buildMap() {
-    console.log("Building a new map for scene:", this);
-
-    let tileIndex, tileId;
+    let tileIndex;
 
     this.mapWidth = this.mapData.layers[0].width;
     this.mapHeight = this.mapData.layers[0].height;
@@ -117,11 +117,15 @@ export default class IsoScene extends Phaser.Scene {
             .map(c => c.world());
 
           // Polygon for mouseover purposes
-          this.placePolygon({
+          let polygon = this.placePolygon({
             points: polygonPoints,
             depth: this.mapHeight * (i + 1),
             cursor: 'crosshair',
             alpha: 0.001
+          });
+
+          polygon.on("pointerdown", (pointer) => {
+            this.events.emit("walkablesurfaceclicked", pointer);
           });
         }
 
@@ -181,11 +185,15 @@ export default class IsoScene extends Phaser.Scene {
             .map(c => c.world());
 
           // Mouseover pointer for portals
-          this.placePolygon({
+          let poly = this.placePolygon({
             points: points,
             depth: this.mapHeight * (i + 1),
             cursor: 'e-resize',
             alpha: 0.001
+          });
+
+          poly.on("pointerdown", (pointer) => {
+            this.events.emit("walkablesurfaceclicked", pointer);
           });
 
 
