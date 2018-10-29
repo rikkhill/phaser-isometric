@@ -7,6 +7,9 @@ export default class Interactable extends Phaser.GameObjects.Image {
     this.scene.add.existing(this);
     this.standpoint = config.standpoint;
     this.facing = config.facing;
+    this.interact = () => {
+      console.log("Interactable interacted with:", this);
+    };
 
     this.setInteractive({cursor: "pointer"});
     this.on("pointerdown", () => {

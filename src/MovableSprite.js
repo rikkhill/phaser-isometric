@@ -9,7 +9,6 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.name = config.key;
     this.scene = config.scene;
     this.direction = "South"; //config.direction;
-    this.finalDirection = "South";
     this.cameraZone = "default";
     this.portalZone = "none";
     this.sheetWidth = 28;// config.sheetWidth;
@@ -66,10 +65,14 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
       let charTo = this.scene.point.fromWorld(interactable.standpoint);
 
       const path = this.scene.getPath(charFrom, charTo);
-      this.finalDirection = interactable.facing;
 
       if(path.length > 0) {
-        this.movement.setPath(path);
+        this.movement.setPath(path, () => {
+          this.direction = interactable.facing;
+          this.idle();
+          interactable.interact();
+
+        });
       } else {
         console.log("No path!");
         // Some sort of message needs to go here
@@ -158,6 +161,10 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   }
 
+  idle() {
+    this.anims.play(this.name + "Idle" + this.direction);
+  }
+
   stop() {
     if(this.tween) {
       this.tween.stop();
@@ -172,11 +179,14 @@ class MovementTracker {
   constructor(sprite) {
     this.sprite = sprite;
     this.movementQueue = [];
+    this.callback = null;
   }
 
-  setPath(path) {
+  setPath(path, callback) {
     // If the sprite is moving, stop it moving
     this.sprite.stop();
+
+    this.callback = typeof callback === "undefined" ? null : callback;
 
     //const worldPath = path.map(c => c.world());
     //this.sprite.scene.debugDrawPath(worldPath);
@@ -190,8 +200,11 @@ class MovementTracker {
     if(!this.sprite.moving && this.movementQueue.length > 0) {
       this.sprite.move(this.movementQueue.shift().world());
       return true;
-    } else {
-      return false;
+    } else if(!this.sprite.moving && this.callback) {
+      this.callback();
+      this.callback = null;
+      return true;
     }
+    return false;
   }
 }

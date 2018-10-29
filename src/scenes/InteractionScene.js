@@ -47,7 +47,7 @@ export default class InteractionScene extends IsoScene {
       level: 3,
       key: "crystal",
       standpoint: crystalStandpoint,
-      facing: 'West'
+      facing: 'NorthEast'
     });
 
     //crystal.setInteractive({cursor: "pointer"});
