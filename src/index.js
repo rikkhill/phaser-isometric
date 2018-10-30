@@ -1,6 +1,6 @@
 import 'phaser';
 import PhaserNavMeshPlugin from "phaser-navmesh";
-import HUD from "./scenes/HUD";
+import HUD from "./UI/HUD";
 import BridgeScene from "./scenes/BridgeScene";
 import FourCheeseScene from "./scenes/FourCheeseScene";
 import WideScene from "./scenes/WideScene";
