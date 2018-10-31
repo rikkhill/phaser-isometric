@@ -1,4 +1,5 @@
 import 'phaser';
+import { ClickableText } from './DialogueElements';
 
 export default class DialogueBox extends Phaser.GameObjects.Container {
 
@@ -32,6 +33,19 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     this.add(graphics);
     this.add(this.copy);
     this.depth = 200;
+
+    const clickableText = new ClickableText({
+      scene: this.scene,
+      x: 20,
+      y: 40,
+      text: "I like monkeys!",
+      style: {color: "#aaffaa", fontStyle: ""},
+      hoverStyle: {color: "#448844", fontStyle: "bold"},
+      callback: () => {
+        this.say("MONKEYS!");
+      }
+    });
+    this.add(clickableText);
 
   }
 
