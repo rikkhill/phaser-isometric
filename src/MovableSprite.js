@@ -132,6 +132,14 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     const newCoords = this.scene.unproject(coords);
 
     const distance = euc(oldCoords.x, newCoords.x, oldCoords.y, newCoords.y);
+
+    // In the event of being directed to exactly the same point
+    // the tween will NaN out and our sprite will disappear
+    // in a puff of mathematics
+    if(distance === 0) {
+      return;
+    }
+
     this.direction = cardinal(oldCoords.x, newCoords.x, oldCoords.y, newCoords.y);
     const duration = (distance) / (this.speed / 1000);
 
@@ -194,6 +202,7 @@ class MovementTracker {
     // The path includes the sprite's current location
     // so we should decapitate the queue first
     this.movementQueue = path.slice(1);
+
   }
 
   checkMovement() {
