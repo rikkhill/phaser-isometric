@@ -1,5 +1,5 @@
 import 'phaser';
-import { ClickableText } from './DialogueElements';
+import { ClickableText, Button } from './DialogueElements';
 
 export default class DialogueBox extends Phaser.GameObjects.Container {
 
@@ -34,6 +34,7 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     this.add(this.copy);
     this.depth = 200;
 
+    /* This is what dialogue options are going to look like...
     const clickableText = new ClickableText({
       scene: this.scene,
       x: 20,
@@ -45,11 +46,37 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
         this.say("MONKEYS!");
       }
     });
-    this.add(clickableText);
-
+    this.add(clickableText); */
   }
 
   say(text) {
     this.copy.setText(text);
+    this.addClearButton("x");
+  }
+
+  addClearButton(text) {
+    const byeByeButton = new Button({
+      x: 20,
+      y: 100,
+      scene: this.scene,
+      width: this.width - 40,
+      height: 40,
+      text: text,
+      originalColor: 0x444444,
+      hoverColor: 0x888888,
+      downColor: 0xaaaaaa,
+      originalBorder: 0xdddd33,
+      hoverBorder: 0xffff33,
+      downBorder: 0x888800,
+      alpha: 0.8,
+      callback: () => {
+        this.copy.setText("");
+        byeByeButton.destroy()
+      }
+    });
+
+    this.scene.add.existing(byeByeButton);
+    this.add(byeByeButton);
+    byeByeButton.depth = 500;
   }
 }
