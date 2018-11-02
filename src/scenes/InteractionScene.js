@@ -1,6 +1,7 @@
 import MovableSprite from "../MovableSprite";
 import IsoScene from "./IsoScene";
 import Interactable from "../environment/Interactable";
+import DialogueRunner from "../DialogueRunner";
 
 export default class InteractionScene extends IsoScene {
   constructor() {
@@ -17,6 +18,7 @@ export default class InteractionScene extends IsoScene {
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
+    this.load.json('testScript', "assets/InkScripts/TestScript.json");
   }
 
   create(state) {
@@ -63,6 +65,10 @@ export default class InteractionScene extends IsoScene {
     this.cameras.main.scrollX = this.centerX / 2 + 100;
     this.cameras.main.scrollY = this.centerY / 2 + 350;
     this.cameras.main.zoom = 1;
+
+    this.dialogueRunner = new DialogueRunner(this.cache.json.get("testScript"));
+
+    window.dialogue = this.dialogueRunner;
 
   }
 
