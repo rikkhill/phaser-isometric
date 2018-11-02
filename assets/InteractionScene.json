@@ -160,6 +160,46 @@
                  "width":0,
                  "x":262.4,
                  "y":454.4
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"clive"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":345.6,
+                 "y":313.6
+                }, 
+                {
+                 "height":0,
+                 "id":16,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"cliveStandpoint"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":345.6,
+                 "y":364.8
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -167,7 +207,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":15,
+ "nextobjectid":17,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="32" infinite="0" nextobjectid="15">
+<map version="1.0" tiledversion="1.1.6" orientation="isometric" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="32" infinite="0" nextobjectid="17">
  <tileset firstgid="1" source="grass.tsx"/>
  <tileset firstgid="673" source="objects.tsx"/>
  <layer name="Floor" width="30" height="30">
@@ -98,6 +98,18 @@
   <object id="14" x="262.4" y="454.4">
    <properties>
     <property name="name" value="crystalStandpoint"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="15" x="345.6" y="313.6">
+   <properties>
+    <property name="name" value="clive"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="16" x="345.6" y="364.8">
+   <properties>
+    <property name="name" value="cliveStandpoint"/>
    </properties>
    <point/>
   </object>

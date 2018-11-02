@@ -1,4 +1,5 @@
-import MovableSprite from "../MovableSprite";
+import MovableSprite from "../sprites/MovableSprite";
+import StaticNPC from "../sprites/StaticNPC";
 import IsoScene from "./IsoScene";
 import Interactable from "../environment/Interactable";
 import DialogueRunner from "../DialogueRunner";
@@ -17,6 +18,7 @@ export default class InteractionScene extends IsoScene {
     this.load.json(this.key + 'Map', 'assets/InteractionScene.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
+    this.load.spritesheet('clive', 'assets/zombie_0.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
     this.load.json('testScript', "assets/InkScripts/TestScript.json");
   }
@@ -52,10 +54,19 @@ export default class InteractionScene extends IsoScene {
       facing: 'NorthEast'
     });
 
-    //crystal.setInteractive({cursor: "pointer"});
-    //crystal.on("gameobjectdown",(pointer, object) => {
-    //  console.log("Object clicked:", object);
-    //});
+    let cliveMarker = this.stageMarkers["clive"].world();
+    let cliveStandpoint = this.stageMarkers["cliveStandpoint"].world();
+    let clive = new StaticNPC({
+      key: 'clive',
+      scene: this,
+      x: cliveMarker.x,
+      y: cliveMarker.y,
+      direction: 'SouthWest',
+      sheetWidth: 36,
+      level: 3,
+      standpoint: cliveStandpoint,
+      facing: "NorthEast"
+    });
 
     this.add.image(crystalMarker.x, crystalMarker.y, 'crystal');
     crystal.depth = crystalMarker.y * 3;

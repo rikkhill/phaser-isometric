@@ -1,5 +1,5 @@
 import 'phaser';
-import {euc, cardinal} from './spaceHelpers';
+import {euc, cardinal} from '../spaceHelpers';
 
 export default class MovableSprite extends Phaser.GameObjects.Sprite {
   constructor(config) {

@@ -6,7 +6,7 @@ import FourCheeseScene from "./scenes/FourCheeseScene";
 import WideScene from "./scenes/WideScene";
 import InteractionScene from "./scenes/InteractionScene";
 import TestScene from "./scenes/TestScene";
-import MovableSprite from "./MovableSprite";
+import MovableSprite from "./sprites/MovableSprite";
 import {cardinal} from './spaceHelpers';
 
 const config = {

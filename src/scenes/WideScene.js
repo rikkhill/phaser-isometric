@@ -1,4 +1,4 @@
-import MovableSprite from "../MovableSprite";
+import MovableSprite from "../sprites/MovableSprite";
 import IsoScene from "./IsoScene";
 
 export default class WideScene extends IsoScene {
