@@ -9,7 +9,11 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     this.width = config.width;
     this.height = 200;
 
+    this.dialogueControl = null;
+
     this.scene.add.existing(this);
+
+    window.db = this;
 
 
     console.log("DialogueBox Created!");
@@ -33,28 +37,60 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     this.add(graphics);
     this.add(this.copy);
     this.depth = 200;
-
-    /* This is what dialogue options are going to look like...
-    const clickableText = new ClickableText({
-      scene: this.scene,
-      x: 20,
-      y: 40,
-      text: "I like monkeys!",
-      style: {color: "#aaffaa", fontStyle: ""},
-      hoverStyle: {color: "#448844", fontStyle: "bold"},
-      callback: () => {
-        this.say("MONKEYS!");
-      }
-    });
-    this.add(clickableText); */
   }
 
   say(text) {
+    console.log("Say method called");
     this.copy.setText(text);
     this.addClearButton("x");
   }
 
+  converse(text, callback) {
+    this.clearAll();
+    this.copy.setText(text);
+    this.addOptions([{text: "...", index: -1}], callback);
+  }
+
+  choice(text, options, callback) {
+    this.clearAll();
+    this.copy.setText(text);
+    this.addOptions(options, callback)
+  }
+
+  addOptions(options, callback) {
+    let yOffset = 0;
+
+    this.dialogueControl = this.scene.add.container(20, this.copy.y + this.copy.displayHeight + 5);
+    this.add(this.dialogueControl);
+
+    for(let option of options) {
+      let clickText = new ClickableText({
+        scene: this.scene,
+        x: 20,
+        y: yOffset,
+        text: option.text,
+        value: option.index,
+        style: {color: '#aaffaa', fontStyle: ""},
+        hoverStyle: {color: '#448844', fontStyle: 'bold'},
+        callback: callback
+      });
+
+      this.dialogueControl.add(clickText);
+      yOffset += clickText.displayHeight + 5;
+    }
+  }
+
+
+
+  clearAll() {
+    this.copy.setText("");
+    if(this.dialogueControl) {
+      this.dialogueControl.destroy();
+    }
+  }
+
   addClearButton(text) {
+    console.log("ClearButton added, somehow");
     const byeByeButton = new Button({
       x: 20,
       y: 100,
@@ -71,7 +107,8 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
       alpha: 0.8,
       callback: () => {
         this.copy.setText("");
-        byeByeButton.destroy()
+        byeByeButton.destroy();
+        this.clearAll();
       }
     });
 

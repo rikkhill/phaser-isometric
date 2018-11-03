@@ -5,10 +5,10 @@ export class ClickableText extends Phaser.GameObjects.Text {
     super(config.scene, config.x, config.y, config.text, config.style);
     this.originalStyle = config.style;
     this.hoverStyle = config.hoverStyle;
+    this.value = config.value;
     this.callback = config.callback;
 
     this.setInteractive({ useHandCursor: true });
-    console.log(this.style);
 
     this.on('pointerover', () => {
       this.setStyle(this.hoverStyle);
@@ -18,7 +18,11 @@ export class ClickableText extends Phaser.GameObjects.Text {
       this.setStyle(this.originalStyle);
     });
 
-    this.on('pointerdown', this.callback);
+    this.on('pointerdown', () => {
+      this.callback(this.value);
+    });
+
+    this.scene.add.existing(this);
   }
 }
 
@@ -60,7 +64,6 @@ export class Button extends Phaser.GameObjects.Container {
     text.depth = 501;
     text.setOrigin(0.5, 0);
     this.add(text);
-    console.log(text);
 
     this.hitZone = this.scene.add.zone(0, 0, this.width, this.height);
     this.hitZone.setOrigin(0);

@@ -2,7 +2,6 @@ import MovableSprite from "../sprites/MovableSprite";
 import StaticNPC from "../sprites/StaticNPC";
 import IsoScene from "./IsoScene";
 import Interactable from "../environment/Interactable";
-import DialogueRunner from "../DialogueRunner";
 
 export default class InteractionScene extends IsoScene {
   constructor() {
@@ -27,6 +26,7 @@ export default class InteractionScene extends IsoScene {
     this.state = state;
     this.mapData =  this.cache.json.get(this.key + 'Map');
 
+    this.HUD = this.scene.get("HUD");
     //this.enableDebug();
 
     this.buildMap();
@@ -62,6 +62,7 @@ export default class InteractionScene extends IsoScene {
       x: cliveMarker.x,
       y: cliveMarker.y,
       direction: 'SouthWest',
+      script: this.cache.json.get('testScript'),
       sheetWidth: 36,
       level: 3,
       standpoint: cliveStandpoint,
@@ -76,10 +77,6 @@ export default class InteractionScene extends IsoScene {
     this.cameras.main.scrollX = this.centerX / 2 + 100;
     this.cameras.main.scrollY = this.centerY / 2 + 350;
     this.cameras.main.zoom = 1;
-
-    this.dialogueRunner = new DialogueRunner(this.cache.json.get("testScript"));
-
-    window.dialogue = this.dialogueRunner;
 
   }
 

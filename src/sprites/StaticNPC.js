@@ -1,5 +1,5 @@
 import 'phaser';
-import {euc, cardinal} from '../spaceHelpers';
+import * as inkjs from 'inkjs';
 
 // This is duplicating a lot of code from MovableSprite
 // Some more sensible inheritance structure is probably a good idea
@@ -12,6 +12,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.direction = config.direction;
     this.sheetWidth = config.sheetWidth;
+    this.script = new inkjs.Story(config.script);
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
     this.depthBonus = 1;
@@ -37,9 +38,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
 
     this.interact = () => {
-      console.log("Interactable interacted with:", this);
-      let HUD = this.scene.scene.get("HUD");
-      HUD.dialogue.say("It's some green rocks.");
+      this.script.ResetState();
+      this.sayNext();
     };
 
     this.setInteractive({
@@ -72,8 +72,6 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
       });
     });
 
-
-
   }
 
   create() {
@@ -86,6 +84,33 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   idle() {
     this.anims.play(this.name + "Idle" + this.direction);
+  }
+
+  // Do the next thing in the script
+  sayNext() {
+    if(this.script.canContinue) {
+      this.script.Continue();
+    }
+
+    if(this.script.currentChoices.length > 0) {
+      this.scene.HUD.dialogue.choice(
+        this.script.currentText,
+        this.script.currentChoices,
+        (response) => {
+          this.giveResponse(response);
+        }
+      );
+    } else if (this.script.canContinue) {  // This tests for the end of the script
+      this.scene.HUD.dialogue.converse(this.script.currentText, () => {this.sayNext()});
+    } else {
+      this.scene.HUD.dialogue.say(this.script.currentText);
+    }
+  }
+
+  giveResponse(choice) {
+    this.script.ChooseChoiceIndex(choice);
+    this.scene.HUD.dialogue.clearAll();
+    this.sayNext();
   }
 
 
