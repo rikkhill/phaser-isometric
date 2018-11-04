@@ -16,7 +16,6 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     window.db = this;
 
 
-    console.log("DialogueBox Created!");
     let box = new Phaser.Geom.Rectangle(0, 0, this.width, 200);
     let graphics = this.scene.add.graphics(0, 0);
     graphics.fillStyle(0x202020, 0.9);
@@ -40,7 +39,6 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
   }
 
   say(text) {
-    console.log("Say method called");
     this.copy.setText(text);
     this.addClearButton("x");
   }
@@ -90,7 +88,6 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
   }
 
   addClearButton(text) {
-    console.log("ClearButton added, somehow");
     const byeByeButton = new Button({
       x: 20,
       y: 100,

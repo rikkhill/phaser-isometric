@@ -83,7 +83,7 @@
    </properties>
    <point/>
   </object>
-  <object id="3" x="396.8" y="512">
+  <object id="3" x="345.6" y="422.4">
    <properties>
     <property name="name" value="start"/>
    </properties>

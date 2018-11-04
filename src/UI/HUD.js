@@ -32,8 +32,6 @@ export default class HUD extends Phaser.Scene {
     this.drawTitleBar();
     this.drawToolBar();
     this.scene.bringToTop();
-    console.log("HUD dimensions:", this.width, this.height);
-    console.log("Proposed dialogue dimensions", this.width / 4, 4 * this.height / 5);
   }
 
   drawTitleBar() {

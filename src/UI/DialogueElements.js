@@ -28,7 +28,6 @@ export class ClickableText extends Phaser.GameObjects.Text {
 
 export class Button extends Phaser.GameObjects.Container {
   constructor(config) {
-    console.log("Button config:", config);
     super(config.scene, config.x, config.y);
     this.width = config.width;
     this.height = config.height;

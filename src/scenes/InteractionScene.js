@@ -19,7 +19,7 @@ export default class InteractionScene extends IsoScene {
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
     this.load.spritesheet('clive', 'assets/zombie_0.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
-    this.load.json('testScript', "assets/InkScripts/TestScript.json");
+    this.load.json('cliveScript', "assets/InkScripts/clive.json");
   }
 
   create(state) {
@@ -62,7 +62,7 @@ export default class InteractionScene extends IsoScene {
       x: cliveMarker.x,
       y: cliveMarker.y,
       direction: 'SouthWest',
-      script: this.cache.json.get('testScript'),
+      script: this.cache.json.get('cliveScript'),
       sheetWidth: 36,
       level: 3,
       standpoint: cliveStandpoint,

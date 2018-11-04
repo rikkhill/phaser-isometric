@@ -1,16 +1,27 @@
 # This is a test script for integrating with my amazing isometric adventure game
 
+EXTERNAL meets(character)
+EXTERNAL hasMet(character)
+
 -> begin
 
 === begin ===
+* { not hasMet("clive") } -> hello_stranger
++ { hasMet("clive") } -> hello_friend
 
-CLIVE: Well hello there. What would you like to do today?
+= hello_friend
+Hello again! What can I do for you, friend? -> choice
 
+= hello_stranger
+>>> MEETS clive
+Hello there, stranger! What can I do for you? -> choice
+
+
+= choice
 * [I'd like to test some options, please!] -> END
 * [I'd like to eat some cheese, please] -> cheese
 * I don't know what I'd like to do today! -> END
 * Is it today already? -> END
-
 
 = cheese
 BEVIN: I'd like to eat some cheese, please!

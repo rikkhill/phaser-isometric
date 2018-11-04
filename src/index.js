@@ -5,9 +5,7 @@ import BridgeScene from "./scenes/BridgeScene";
 import FourCheeseScene from "./scenes/FourCheeseScene";
 import WideScene from "./scenes/WideScene";
 import InteractionScene from "./scenes/InteractionScene";
-import TestScene from "./scenes/TestScene";
-import MovableSprite from "./sprites/MovableSprite";
-import {cardinal} from './spaceHelpers';
+import GameState from './system/GameState';
 
 const config = {
     type: Phaser.AUTO,
@@ -35,4 +33,4 @@ const config = {
 };
 
 window.game = new Phaser.Game(config);
-game.scene.start('InteractionScene', {a: "yo", b: "dude"});
+game.scene.start('InteractionScene', new GameState());

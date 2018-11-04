@@ -1,5 +1,5 @@
 import 'phaser';
-import * as inkjs from 'inkjs';
+import DialogueParser from '../system/DialogueParser';
 
 // This is duplicating a lot of code from MovableSprite
 // Some more sensible inheritance structure is probably a good idea
@@ -12,7 +12,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.direction = config.direction;
     this.sheetWidth = config.sheetWidth;
-    this.script = new inkjs.Story(config.script);
+    this.script = new DialogueParser(config.script, this.scene.state);
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
     this.depthBonus = 1;
@@ -49,6 +49,10 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.on("pointerdown", () => {
       this.scene.events.emit('interactableclicked', this);
     });
+
+    // Yeah, we definitely need to break this out somehow...
+    // We can't just pass the object method, as it isn't bound to the
+
 
   }
 
@@ -88,13 +92,16 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
   // Do the next thing in the script
   sayNext() {
+
+    // TODO: Basically refactor all of this into the DialogueParser
     if(this.script.canContinue) {
-      this.script.Continue();
+      // Whatever
     }
+    const dialogue = this.script.getNext();
 
     if(this.script.currentChoices.length > 0) {
       this.scene.HUD.dialogue.choice(
-        this.script.currentText,
+        dialogue.speaker + ": " + dialogue.text, //this.script.currentText,
         this.script.currentChoices,
         (response) => {
           this.giveResponse(response);
