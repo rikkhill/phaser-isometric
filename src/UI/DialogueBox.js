@@ -1,10 +1,11 @@
 import 'phaser';
 import { ClickableText, Button } from './DialogueElements';
+import SlidingContainer from './SlidingContainer';
 
-export default class DialogueBox extends Phaser.GameObjects.Container {
+export default class DialogueBox extends SlidingContainer {
 
   constructor(config){
-    super(config.scene, config.x, config.y);
+    super(config);
     this.scene = config.scene;
     this.width = config.width;
     this.height = 200;
@@ -85,6 +86,7 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
     if(this.dialogueControl) {
       this.dialogueControl.destroy();
     }
+
   }
 
   addClearButton(text) {
@@ -106,6 +108,7 @@ export default class DialogueBox extends Phaser.GameObjects.Container {
         this.copy.setText("");
         byeByeButton.destroy();
         this.clearAll();
+        this.slideClosed();
       }
     });
 

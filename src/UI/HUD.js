@@ -24,8 +24,10 @@ export default class HUD extends Phaser.Scene {
 
     this.dialogue = new DialogueBox({
       scene: this,
+      openX: this.width / 5,
       x: this.width / 5,
-      y: 3 * this.height / 4,
+      openY: 3 * this.height / 4,
+      y: this.height,
       width: 3 * this.width / 5
     });
 
