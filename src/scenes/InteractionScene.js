@@ -2,6 +2,7 @@ import MovableSprite from "../sprites/MovableSprite";
 import StaticNPC from "../sprites/StaticNPC";
 import IsoScene from "./IsoScene";
 import Interactable from "../environment/Interactable";
+import CollectableObject from "../environment/CollectableObject";
 
 export default class InteractionScene extends IsoScene {
   constructor() {
@@ -69,7 +70,7 @@ export default class InteractionScene extends IsoScene {
     // Probably want a generic "place this in the scene" method
     let appleMarker = this.stageMarkers["apple"].world();
     let appleStandpoint = this.stageMarkers["appleStandpoint"].world();
-    let apple = new Interactable({
+    let apple = new CollectableObject({
       scene: this,
       x: appleMarker.x,
       y: appleMarker.y,
@@ -77,12 +78,7 @@ export default class InteractionScene extends IsoScene {
       key: "apple",
       standpoint: appleStandpoint,
       facing: 'SouthWest',
-      interaction: () => {
-        this.HUD.dialogue.slideOpen();
-        this.HUD.dialogue.say("It's an apple. I think I'll take it.");
-        apple.destroy();
-        this.state.isGiven("apple");
-      }
+      pickupLine: "An apple a day keeps the doctor away! I hate doctors, so I'm going to keep this."
     });
 
     apple.setScale(0.2);
@@ -90,7 +86,7 @@ export default class InteractionScene extends IsoScene {
 
     let bananaMarker = this.stageMarkers["banana"].world();
     let bananaStandpoint = this.stageMarkers["bananaStandpoint"].world();
-    let banana = new Interactable({
+    let banana = new CollectableObject({
       scene: this,
       x: bananaMarker.x,
       y: bananaMarker.y,
@@ -98,18 +94,13 @@ export default class InteractionScene extends IsoScene {
       key: "banana",
       standpoint: bananaStandpoint,
       facing: 'East',
-      interaction: () => {
-        this.HUD.dialogue.slideOpen();
-        this.HUD.dialogue.say("It's a banana. I think I'll take it.");
-        banana.destroy();
-        this.state.isGiven("banana");
-      }
+      pickupLine: "It's a banana. They are high in potassium. I'm going to keep hold of this."
     });
 
     banana.setScale(0.2);
 
     let whiskeyMarker = this.stageMarkers["whiskey"].world();
-    let whiskey = new Interactable({
+    let whiskey = new CollectableObject({
       scene: this,
       x: whiskeyMarker.x,
       y: whiskeyMarker.y,
@@ -117,32 +108,22 @@ export default class InteractionScene extends IsoScene {
       key: "whiskey",
       standpoint: whiskeyMarker,
       facing: 'East',
-      interaction: () => {
-        this.HUD.dialogue.slideOpen();
-        this.HUD.dialogue.say("It's a jug of moonshine. I think I'll take it.");
-        whiskey.destroy();
-        this.state.isGiven("whiskey");
-      }
+      pickupLine: "It's a nice big jug of moonshine. I think I'll keep it."
     });
 
     whiskey.setScale(0.4);
 
 
     let noteMarker = this.stageMarkers["note"].world();
-    let note = new Interactable({
+    let note = new CollectableObject({
       scene: this,
       x: noteMarker.x,
       y: noteMarker.y,
       level: 3,
       key: "note",
       standpoint: noteMarker,
-      facing: 'NorthWest',
-      interaction: () => {
-        this.HUD.dialogue.slideOpen();
-        this.HUD.dialogue.say("It's a note. I think I'll take it.");
-        note.destroy();
-        this.state.isGiven("note");
-      }
+      facing: 'South',
+      pickupLine: "It's a note. I'm going to keep hold of this."
     });
 
     note.setScale(0.3);

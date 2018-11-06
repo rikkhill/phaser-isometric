@@ -6,5 +6,14 @@ export default class CollectableObject extends Interactable {
   constructor(config) {
     super(config);
 
+    this.pickupLine = config.pickupLine;
+
+    this.interaction = () => {
+      this.scene.HUD.dialogue.slideOpen();
+      this.scene.HUD.dialogue.say(this.pickupLine);
+      this.scene.state.isGiven(this.key);
+      this.destroy();
+    };
+
   }
 }

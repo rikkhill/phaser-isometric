@@ -11,7 +11,7 @@ export default class InventoryBox extends SlidingContainer {
     this.height = config.height;
     this.cols = 3;
     this.iconWidth = 64;
-    this.margin = 5;
+    this.margin = 4;
 
 
     this.scene.add.existing(this);
