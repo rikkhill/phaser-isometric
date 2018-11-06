@@ -33,12 +33,14 @@ export default class InventoryBox extends SlidingContainer {
       let col = i % this.cols;
 
       console.log("InventoryItem: ", row, col);
+      let itemConfig = inventory[itemKey];
 
       let item = new InventoryItem({
         scene: this.scene,
         x: col * this.iconWidth + this.margin,
         y: row * this.iconWidth + this.margin,
-        key: inventory[itemKey]
+        key: itemKey + "Inventory",
+        ...itemConfig,
       });
 
       this.scene.add.existing(item);

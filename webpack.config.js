@@ -7,6 +7,7 @@ module.exports = {
 
     entry: './src/index.js',
     devtool: 'eval-source-map',
+    mode: 'development',
 
     output: {
         path: path.resolve(__dirname, 'build'),

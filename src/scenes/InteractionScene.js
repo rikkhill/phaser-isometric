@@ -78,7 +78,11 @@ export default class InteractionScene extends IsoScene {
       key: "apple",
       standpoint: appleStandpoint,
       facing: 'SouthWest',
-      pickupLine: "An apple a day keeps the doctor away! I hate doctors, so I'm going to keep this."
+      pickupLine: "An apple a day keeps the doctor away! I hate doctors, so I'm going to keep this.",
+      itemConfig: {
+        name: "Apple",
+        description: "A lovely shiny red apple",
+      }
     });
 
     apple.setScale(0.2);

@@ -36,8 +36,11 @@ export default class GameState {
       return this.knows.hasOwnProperty(knowledge);
     };
 
-    this.isGiven = (itemKey) => {
-      this.inventory[itemKey] = itemKey + "Inventory";
+    this.isGiven = (itemKey, itemDescription) => {
+      this.inventory[itemKey] = {
+        key: itemKey + "Inventory",
+        description: itemDescription
+      };
       return true;
     };
 
