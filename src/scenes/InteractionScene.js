@@ -11,6 +11,8 @@ export default class InteractionScene extends IsoScene {
       tileWidth: 64,
       tileHeight: 32,
     });
+
+    this.title = "Interaction Test Scene";
   }
 
   preload() {
@@ -27,6 +29,7 @@ export default class InteractionScene extends IsoScene {
     this.mapData =  this.cache.json.get(this.key + 'Map');
 
     this.HUD = this.scene.get("HUD");
+    this.HUD.title.setTitle(this.title);
     //this.enableDebug();
 
     this.buildMap();

@@ -25,7 +25,7 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
       targets: this,
       x: this.closedX,
       y: this.closedY,
-      duration: 500,
+      duration: 300,
       onStart: () => {
         this.inTransition = true;
       },
@@ -46,7 +46,7 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
       targets: this,
       x: this.openX,
       y: this.openY,
-      duration: 500,
+      duration: 300,
       onStart: () => {
         this.inTransition = true;
       },

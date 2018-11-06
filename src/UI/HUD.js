@@ -1,6 +1,6 @@
 import 'phaser';
 import DialogueBox from './DialogueBox';
-
+import TitleBar from './TitleBar';
 // Base class for isometric map scenes
 export default class HUD extends Phaser.Scene {
   constructor(config) {
@@ -8,19 +8,13 @@ export default class HUD extends Phaser.Scene {
       key: "HUD",
     });
 
-    this.width = null;
-    this.height = null;
-    this.dialogue = null;
-
-
-
+    this.width = game.canvas.width;
+    this.height = game.canvas.height;
 
   }
 
   create() {
 
-    this.width = game.canvas.width;
-    this.height = game.canvas.height;
 
     this.dialogue = new DialogueBox({
       scene: this,
@@ -31,16 +25,16 @@ export default class HUD extends Phaser.Scene {
       width: 3 * this.width / 5
     });
 
-    this.drawTitleBar();
+    this.title = new TitleBar({
+      x: 0,
+      y: 0,
+      width: this.width,
+      height: this.height / 25,
+      scene: this
+    });
+
     this.drawToolBar();
     this.scene.bringToTop();
-  }
-
-  drawTitleBar() {
-    const bar = this.add.graphics(0, 0);
-    bar.fillStyle(0xAAAA77, 0.9);
-    const rect = new Phaser.Geom.Rectangle(0, 0, this.width, this.height/20);
-    bar.fillRectShape(rect);
   }
 
   drawToolBar() {
@@ -50,16 +44,5 @@ export default class HUD extends Phaser.Scene {
     bar.fillRectShape(rect);
   }
 
-  drawDialogueBox() {
-    const box = this.add.graphics(0, 0);
-    box.fillStyle(0x555533, 0.9);
-    const rect = new Phaser.Geom.Rectangle(
-      1 * this.width / 4,
-      3 * this.height / 4,
-      1 * this.width / 2,
-      3 * this.height / 4
-    );
 
-    box.fillRectShape(rect);
-  }
 }
