@@ -1,5 +1,6 @@
 import 'phaser';
 import SlidingContainer from './SlidingContainer';
+import InventoryItem from '../InventoryItems/InventoryItem';
 
 export default class InventoryBox extends SlidingContainer {
 
@@ -8,6 +9,9 @@ export default class InventoryBox extends SlidingContainer {
     this.scene = config.scene;
     this.width = config.width;
     this.height = config.height;
+    this.cols = 3;
+    this.iconWidth = 64;
+    this.margin = 5;
 
 
     this.scene.add.existing(this);
@@ -23,5 +27,26 @@ export default class InventoryBox extends SlidingContainer {
     this.depth = 200;
   }
 
+  drawInventory(inventory) {
+    for(let [i, itemKey] of Object.keys(inventory).entries()) {
+      let row = Math.floor(i / this.cols);
+      let col = i % this.cols;
+
+      console.log("InventoryItem: ", row, col);
+
+      let item = new InventoryItem({
+        scene: this.scene,
+        x: col * this.iconWidth + this.margin,
+        y: row * this.iconWidth + this.margin,
+        key: inventory[itemKey]
+      });
+
+      this.scene.add.existing(item);
+      item.setOrigin(0);
+      this.add(item);
+
+    }
+
+  }
 
 }

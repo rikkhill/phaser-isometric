@@ -91,7 +91,6 @@ export default class IsoScene extends Phaser.Scene {
     this.mapHeight = this.mapData.layers[0].height;
     this.centerX = this.mapWidth * this.tileWidthHalf;
     this.centerY = (this.mapHeight * this.tileHeightHalf) / 2;
-    //console.log("Map data: ", this.mapData);
 
 
     for (const [i, layer] of this.mapData.layers.entries()) {
@@ -335,10 +334,7 @@ export default class IsoScene extends Phaser.Scene {
     // designated entry point, use that
     if(this.state.comingFromScene) {
       const designatedEntryPoint = "entryFrom" + this.state.comingFromScene;
-      console.log("Designated entry point:", designatedEntryPoint);
-      console.log("Stage markers that exist:", this.stageMarkers);
       if(this.stageMarkers[designatedEntryPoint]) {
-        console.log("Returning stageMarker:", this.stageMarkers[designatedEntryPoint]);
         return this.stageMarkers[designatedEntryPoint];
       }
     }

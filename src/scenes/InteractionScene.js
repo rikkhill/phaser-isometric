@@ -22,6 +22,9 @@ export default class InteractionScene extends IsoScene {
     this.load.spritesheet('clive', 'assets/zombie_0.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
     this.load.image("apple", "assets/apple.png");
+    this.load.image("banana", "assets/banana.png");
+    this.load.image("note", "assets/note.png");
+    this.load.image("whiskey", "assets/whiskey.png");
     this.load.json('cliveScript', "assets/InkScripts/clive.json");
   }
 
@@ -83,6 +86,66 @@ export default class InteractionScene extends IsoScene {
     });
 
     apple.setScale(0.2);
+
+
+    let bananaMarker = this.stageMarkers["banana"].world();
+    let bananaStandpoint = this.stageMarkers["bananaStandpoint"].world();
+    let banana = new Interactable({
+      scene: this,
+      x: bananaMarker.x,
+      y: bananaMarker.y,
+      level: 3,
+      key: "banana",
+      standpoint: bananaStandpoint,
+      facing: 'East',
+      interaction: () => {
+        this.HUD.dialogue.slideOpen();
+        this.HUD.dialogue.say("It's a banana. I think I'll take it.");
+        banana.destroy();
+        this.state.isGiven("banana");
+      }
+    });
+
+    banana.setScale(0.2);
+
+    let whiskeyMarker = this.stageMarkers["whiskey"].world();
+    let whiskey = new Interactable({
+      scene: this,
+      x: whiskeyMarker.x,
+      y: whiskeyMarker.y,
+      level: 3,
+      key: "whiskey",
+      standpoint: whiskeyMarker,
+      facing: 'East',
+      interaction: () => {
+        this.HUD.dialogue.slideOpen();
+        this.HUD.dialogue.say("It's a jug of moonshine. I think I'll take it.");
+        whiskey.destroy();
+        this.state.isGiven("whiskey");
+      }
+    });
+
+    whiskey.setScale(0.4);
+
+
+    let noteMarker = this.stageMarkers["note"].world();
+    let note = new Interactable({
+      scene: this,
+      x: noteMarker.x,
+      y: noteMarker.y,
+      level: 3,
+      key: "note",
+      standpoint: noteMarker,
+      facing: 'NorthWest',
+      interaction: () => {
+        this.HUD.dialogue.slideOpen();
+        this.HUD.dialogue.say("It's a note. I think I'll take it.");
+        note.destroy();
+        this.state.isGiven("note");
+      }
+    });
+
+    note.setScale(0.3);
 
     let cliveMarker = this.stageMarkers["clive"].world();
     let cliveStandpoint = this.stageMarkers["cliveStandpoint"].world();

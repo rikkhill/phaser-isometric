@@ -13,7 +13,6 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
     this.openY = config.openY;
     this.inTransition = false;
     this.open = false;
-    console.log(this);
   }
 
   slideClosed() {

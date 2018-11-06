@@ -17,6 +17,13 @@ export default class HUD extends Phaser.Scene {
 
   }
 
+  preload() {
+    this.load.image('appleInventory', 'assets/apple.png');
+    this.load.image('bananaInventory', 'assets/banana.png');
+    this.load.image('noteInventory', 'assets/note.png');
+    this.load.image('whiskeyInventory', 'assets/whiskey.png');
+  }
+
   create() {
 
 

@@ -34,7 +34,6 @@ export default class TitleBar extends Phaser.GameObjects.Container {
     this.title.setOrigin(0.5);
 
     this.add(this.title);
-    console.log(this);
   }
 
   setTitle(text) {
