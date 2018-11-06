@@ -200,6 +200,46 @@
                  "width":0,
                  "x":345.6,
                  "y":364.8
+                }, 
+                {
+                 "height":0,
+                 "id":17,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"apple"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":588.8
+                }, 
+                {
+                 "height":0,
+                 "id":18,
+                 "name":"",
+                 "point":true,
+                 "properties":
+                    {
+                     "name":"appleStandpoint"
+                    },
+                 "propertytypes":
+                    {
+                     "name":"string"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":364.8,
+                 "y":556.8
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -207,7 +247,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":17,
+ "nextobjectid":19,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",

@@ -70,7 +70,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
         this.movement.setPath(path, () => {
           this.direction = interactable.facing;
           this.idle();
-          interactable.interact();
+          interactable.interaction();
 
         });
       } else {

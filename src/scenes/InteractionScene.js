@@ -21,6 +21,7 @@ export default class InteractionScene extends IsoScene {
     this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
     this.load.spritesheet('clive', 'assets/zombie_0.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
+    this.load.image("apple", "assets/apple.png");
     this.load.json('cliveScript', "assets/InkScripts/clive.json");
   }
 
@@ -54,8 +55,34 @@ export default class InteractionScene extends IsoScene {
       level: 3,
       key: "crystal",
       standpoint: crystalStandpoint,
-      facing: 'NorthEast'
+      facing: 'NorthEast',
+      interaction: () => {
+        this.HUD.dialogue.slideOpen();
+        this.HUD.dialogue.say("It's some green rocks.");
+      }
     });
+
+    // We're repeating this Market/Standpoint/Entity thing a lot
+    // Probably want a generic "place this in the scene" method
+    let appleMarker = this.stageMarkers["apple"].world();
+    let appleStandpoint = this.stageMarkers["appleStandpoint"].world();
+    let apple = new Interactable({
+      scene: this,
+      x: appleMarker.x,
+      y: appleMarker.y,
+      level: 3,
+      key: "apple",
+      standpoint: appleStandpoint,
+      facing: 'SouthWest',
+      interaction: () => {
+        this.HUD.dialogue.slideOpen();
+        this.HUD.dialogue.say("It's an apple. I think I'll take it.");
+        apple.destroy();
+        this.state.isGiven("apple");
+      }
+    });
+
+    apple.setScale(0.2);
 
     let cliveMarker = this.stageMarkers["clive"].world();
     let cliveStandpoint = this.stageMarkers["cliveStandpoint"].world();
@@ -72,8 +99,8 @@ export default class InteractionScene extends IsoScene {
       facing: "NorthEast"
     });
 
-    this.add.image(crystalMarker.x, crystalMarker.y, 'crystal');
-    crystal.depth = crystalMarker.y * 3;
+    //this.add.image(crystalMarker.x, crystalMarker.y, 'crystal');
+    //crystal.depth = crystalMarker.y * 3;
 
     // Put the camera at the start marker
     const cameraStart = this.stageMarkers["cameraStart"].world();

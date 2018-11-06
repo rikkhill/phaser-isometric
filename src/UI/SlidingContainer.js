@@ -44,6 +44,7 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
 
     this.tween = this.scene.tweens.add({
       targets: this,
+      ease: 'Cubic',
       x: this.openX,
       y: this.openY,
       duration: 300,

@@ -37,7 +37,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
 
     this.scene.add.existing(this);
 
-    this.interact = () => {
+    this.interaction = () => {
       this.scene.HUD.dialogue.slideOpen();
       this.script.ResetState();
       this.sayNext();
