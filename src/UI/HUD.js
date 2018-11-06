@@ -1,6 +1,10 @@
 import 'phaser';
 import DialogueBox from './DialogueBox';
+import InventoryBox from './InventoryBox';
 import TitleBar from './TitleBar';
+
+
+
 // Base class for isometric map scenes
 export default class HUD extends Phaser.Scene {
   constructor(config) {
@@ -22,7 +26,18 @@ export default class HUD extends Phaser.Scene {
       x: this.width / 5,
       openY: 3 * this.height / 4,
       y: this.height,
-      width: 3 * this.width / 5
+      width: 3 * this.width / 5,
+      height: 200
+    });
+
+    this.inventory = new InventoryBox({
+      scene: this,
+      x: this.width,
+      openX: 3 * this.width / 4,
+      y: this.height / 25,
+      openY: this.height / 25,
+      width: this.width / 4,
+      height: 24 * this.height / 25
     });
 
     this.title = new TitleBar({
