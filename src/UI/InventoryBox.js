@@ -25,6 +25,9 @@ export default class InventoryBox extends SlidingContainer {
     this.add(graphics);
 
     this.depth = 200;
+
+
+
   }
 
   drawInventory(inventory) {
