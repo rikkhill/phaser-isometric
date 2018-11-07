@@ -30,7 +30,7 @@ export default class DialogueBox extends SlidingContainer {
         fontSize: 16,
         color: '#d9d9d9',
         wordWrap: {
-          width: this.width,
+          width: this.width - 20,
           useAdvancedWrap: true
         }
       });
