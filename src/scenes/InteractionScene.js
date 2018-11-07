@@ -98,7 +98,11 @@ export default class InteractionScene extends IsoScene {
       key: "banana",
       standpoint: bananaStandpoint,
       facing: 'East',
-      pickupLine: "It's a banana. They are high in potassium. I'm going to keep hold of this."
+      pickupLine: "It's a banana. They are high in potassium. I'm going to keep hold of this.",
+      itemConfig: {
+        name: "Banana",
+        description: "A banana"
+      }
     });
 
     banana.setScale(0.2);
@@ -112,7 +116,11 @@ export default class InteractionScene extends IsoScene {
       key: "whiskey",
       standpoint: whiskeyMarker,
       facing: 'East',
-      pickupLine: "It's a nice big jug of moonshine. I think I'll keep it."
+      pickupLine: "It's a nice big jug of moonshine. I think I'll keep it.",
+      itemConfig: {
+        name: "Whiskey",
+        description: "A large jug of moonshine"
+      }
     });
 
     whiskey.setScale(0.4);
@@ -127,7 +135,11 @@ export default class InteractionScene extends IsoScene {
       key: "note",
       standpoint: noteMarker,
       facing: 'South',
-      pickupLine: "It's a note. I'm going to keep hold of this."
+      pickupLine: "It's a note. I'm going to keep hold of this.",
+      itemConfig: {
+        name: "A handwritten note",
+        description: "\"Run! Run from this place as fast as you possibly can!\""
+      }
     });
 
     note.setScale(0.3);
