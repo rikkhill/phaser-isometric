@@ -13,6 +13,30 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
     this.openY = config.openY;
     this.inTransition = false;
     this.open = false;
+
+    // We set this.permanent to true if we don't
+    // want scene events closing the container
+    this.permanent = typeof config.permanent === 'undefined'
+      ? false : config.permanent;
+
+    this.scene.events.on('menuitemclicked', (menuItem) => {
+      if(this.permanent) {
+        return;
+      }
+
+      if(menuItem.name === this.name) {
+        if(this.open) {
+          this.slideClosed();
+        } else {
+          this.slideOpen();
+        }
+      } else {
+        if(this.open) {
+          this.slideClosed();
+        }
+      }
+    });
+
   }
 
   slideClosed() {

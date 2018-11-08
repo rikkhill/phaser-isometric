@@ -28,13 +28,13 @@
                  "y":281.6
                 }, 
                 {
-                 "height":390.4,
+                 "height":505.6,
                  "id":7,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":249.6,
+                 "width":358.4,
                  "x":435.2,
                  "y":288
                 }, 
@@ -327,7 +327,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":23,
+ "nextobjectid":24,
  "orientation":"isometric",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",

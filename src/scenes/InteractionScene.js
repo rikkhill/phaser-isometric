@@ -167,6 +167,7 @@ export default class InteractionScene extends IsoScene {
     this.cameras.main.scrollX = this.centerX / 2 + 100;
     this.cameras.main.scrollY = this.centerY / 2 + 350;
     this.cameras.main.zoom = 1;
+    this.cameras.main.fadeIn(1000);
 
   }
 
