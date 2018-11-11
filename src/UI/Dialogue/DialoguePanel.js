@@ -19,8 +19,6 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
 
     this.scene.add.existing(this);
 
-    console.log("before adding anything, panel display height is:", this.displayHeight, this.height);
-
     // Add a background box
     let box = new Phaser.Geom.Rectangle(0, 0, this.width, this.height);
     let graphics = this.scene.add.graphics(0, 0);
