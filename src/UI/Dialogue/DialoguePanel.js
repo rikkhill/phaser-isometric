@@ -72,7 +72,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
 
     // Add body text
     if(this.continuation) {
-      let continueOption = new DialogueOption({
+      this.continueOption = new DialogueOption({
         scene: this.scene,
         x: this.width / 2,
         y: this.height,
@@ -95,10 +95,10 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
         callback: this.continuationCallback
       });
 
-      this.scene.add.existing(continueOption);
-      this.add(continueOption);
+      this.scene.add.existing(this.continueOption);
+      this.add(this.continueOption);
 
-      this.height += continueOption.displayHeight + 10;
+      this.height += this.continueOption.displayHeight + 10;
     }
 
     // Add options
@@ -145,5 +145,35 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
       this.height += this.button.displayHeight + 10;
     }
 
+  }
+
+  recalculateHeight() {
+    console.log("Height recalculated in panel");
+
+    let height = 0;
+
+    if(this.header) {
+      height += this.header.displayHeight + 10;
+    }
+
+    if(this.body) {
+      height += this.body.displayHeight + 5
+    }
+
+    if(this.continuationOption) {
+      height += this.continueOption.displayHeight + 10;
+    }
+
+    if(this.options) {
+      height += this.options.displayHeight + 10;
+    }
+
+    if(this.button) {
+      height += this.button.displayHeight + 10;
+    }
+
+    this.height = height;
+
+    this.parentContainer.recalculateHeight();
   }
 }

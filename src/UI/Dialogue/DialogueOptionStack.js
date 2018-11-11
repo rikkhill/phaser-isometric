@@ -64,6 +64,8 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
         this.add(newText);
         selectedOption.destroy();
         this.height = newText.displayHeight;
+        this.parentContainer.recalculateHeight();
+
         if(this.callback) {
           this.callback(i);
         }

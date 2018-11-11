@@ -58,8 +58,9 @@ export default class DialogueStack extends Phaser.GameObjects.Container {
 
   }
 
-  calculateHeight() {
+  recalculateHeight() {
     const height = this.stack.reduce((a, b) => a + b.height, 0);
+    this.heightOffset = height;
 
     console.log("Calculated stack height as: ", height);
     console.log("Height offset is currently: ", this.heightOffset);
