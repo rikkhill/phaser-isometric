@@ -1,5 +1,4 @@
 import 'phaser';
-import DialogueBox from './DialogueBox';
 import InventoryBox from './InventoryBox';
 import NotesBox from './NotesBox';
 import TitleBar from './TitleBar';

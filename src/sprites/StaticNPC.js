@@ -115,17 +115,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
         optionsCallback: (i) => { this.giveResponse(i) }
       });
 
-      /*
-      this.scene.HUD.dialogue.choice(
-        dialogue.speaker + ": " + dialogue.text, //this.script.currentText,
-        this.script.currentChoices,
-        (response) => {
-          this.giveResponse(response);
-        }
-      );*/
-
     } else if (this.script.canContinue) {  // This tests for the end of the script
-      //this.scene.HUD.dialogue.converse(this.script.currentText, () => {this.sayNext()});
       // Add a text panel, then a continue button
       this.scene.HUD.dialogueFrame.stack.addPanel({
         header: dialogue.speaker,
