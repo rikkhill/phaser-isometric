@@ -4,7 +4,6 @@
 
 - Make scrollbar nicer / more tightly-coupled to the dialogue stack/frame
 - Improve continuations so they disappear when clicked
-- Recalculate dialogue stack height after option is clicked to avoid big gaps
 - Snazzier font choices
 
 ## Dialogue System
@@ -25,3 +24,4 @@
 
 - Dynamically redraw inventory on game state update (case for game state living with UI)
 - Entrypoint to dialogue scripts from inventory items
+````
