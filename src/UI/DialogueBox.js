@@ -8,7 +8,7 @@ export default class DialogueBox extends SlidingContainer {
     super(config);
     this.scene = config.scene;
     this.width = config.width;
-    this.height = 200;
+    this.height = config.height;
 
     this.dialogueControl = null;
 
@@ -17,7 +17,7 @@ export default class DialogueBox extends SlidingContainer {
     window.db = this;
 
 
-    let box = new Phaser.Geom.Rectangle(0, 0, this.width, 200);
+    let box = new Phaser.Geom.Rectangle(0, 0, this.width, this.height);
     let graphics = this.scene.add.graphics(0, 0);
     graphics.fillStyle(0x202020, 0.9);
     graphics.fillRectShape(box);

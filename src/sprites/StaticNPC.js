@@ -18,6 +18,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.depthBonus = 1;
     this.standpoint = config.standpoint;
 
+    window.script = this.script;
+
     // A list of directions, ordered clockwise west to south west
     // (This should be their order on the sprite sheet)
     this.directions = ["West",
@@ -38,7 +40,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
 
     this.interaction = () => {
-      this.scene.HUD.dialogue.slideOpen();
+      this.scene.HUD.showDialogue();
       this.script.ResetState();
       this.sayNext();
     };
@@ -101,23 +103,56 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     const dialogue = this.script.getNext();
 
     if(this.script.currentChoices.length > 0) {
+
+      console.log(this.script.currentChoices);
+
+      // Make a choice panel in the dialogue stack
+
+      this.scene.HUD.dialogueFrame.stack.addPanel({
+        header: dialogue.speaker,
+        body: dialogue.text,
+        options: this.script.currentChoices,
+        optionsCallback: (i) => { this.giveResponse(i) }
+      });
+
+      /*
       this.scene.HUD.dialogue.choice(
         dialogue.speaker + ": " + dialogue.text, //this.script.currentText,
         this.script.currentChoices,
         (response) => {
           this.giveResponse(response);
         }
-      );
+      );*/
+
     } else if (this.script.canContinue) {  // This tests for the end of the script
-      this.scene.HUD.dialogue.converse(this.script.currentText, () => {this.sayNext()});
+      //this.scene.HUD.dialogue.converse(this.script.currentText, () => {this.sayNext()});
+      // Add a text panel, then a continue button
+      this.scene.HUD.dialogueFrame.stack.addPanel({
+        header: dialogue.speaker,
+        body: dialogue.text,
+        continuation: "Continue...",
+        continuationCallback: () => {
+          this.sayNext()
+        }
+      });
+
     } else {
-      this.scene.HUD.dialogue.say(this.script.currentText);
+      //this.scene.HUD.dialogue.say(this.script.currentText);
+      // Say it and end
+      this.scene.HUD.dialogueFrame.stack.addPanel({
+        header: dialogue.speaker,
+        body: dialogue.text,
+        button: "x",
+        buttonCallback: () => {
+          this.scene.HUD.dialogueFrame.stack.clear();
+          this.scene.HUD.hideDialogue();
+        }
+      });
     }
   }
 
   giveResponse(choice) {
     this.script.ChooseChoiceIndex(choice);
-    this.scene.HUD.dialogue.clearAll();
     this.sayNext();
   }
 

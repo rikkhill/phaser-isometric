@@ -5,6 +5,9 @@ import NotesBox from './NotesBox';
 import TitleBar from './TitleBar';
 import SideBar from './SideBar';
 
+// All imports below this line are temporary test imports and should eventually be removed
+import DialogueFrame from './Dialogue/DialogueFrame';
+
 
 
 // Base class for isometric map scenes
@@ -16,6 +19,11 @@ export default class HUD extends Phaser.Scene {
 
     this.width = game.canvas.width;
     this.height = game.canvas.height;
+
+    this.dialogueHidden = true;
+    this.inTransition = false;
+
+    window.HUD = this;
 
   }
 
@@ -47,18 +55,6 @@ export default class HUD extends Phaser.Scene {
     // One day soon we will add this sparkle to denote new items in sidebar areas
     //const newSparkle = this.add.sprite(300, 300, 'new').play("newSparkle").setScale(0.4); */
 
-
-    // The box where dialogue is displayed
-    this.dialogue = new DialogueBox({
-      scene: this,
-      openX: this.width / 5,
-      x: this.width / 5,
-      openY: 3 * this.height / 4,
-      y: this.height,
-      width: 3 * this.width / 5,
-      height: 200,
-      permanent: true
-    });
 
     // The box where inventory items are displayed
     this.inventory = new InventoryBox({
@@ -104,7 +100,75 @@ export default class HUD extends Phaser.Scene {
     this.sideBar.addButton('inventory', 'inventoryButton');
     this.sideBar.addButton('notes', 'notesButton');
 
+
+
+    this.dialogueFrame = new DialogueFrame({
+      scene: this,
+      x: 100,
+      y: this.height,
+      width: 600,
+      height: 200
+    });
+
+    const maskShape = this.make.graphics();
+    maskShape.fillStyle(0xFFFFFF);
+    maskShape.fillRectShape(new Phaser.Geom.Rectangle(
+      100,
+      400,
+      600,
+      200
+    ));
+
+    this.dialogueMask = maskShape.createGeometryMask();
+
+    this.dialogueFrame.setMask(this.dialogueMask);
+    window.dp = this.dialogueFrame;
+
+
     this.scene.bringToTop();
+  }
+
+  // Because of how masking works, this kind of needs to live in here...
+
+  hideDialogue() {
+    if(this.dialogueHidden) {
+      return false;
+    }
+
+    this.tweens.add({
+      targets: [this.dialogueFrame, this.dialogueMask],
+      ease: 'Cubic',
+      y: "+=" + this.dialogueFrame.height,
+      duration: 300,
+      onStart: () => {
+        this.inTransition = true;
+      },
+      onComplete: () => {
+        this.inTransition = false;
+        this.dialogueHidden = true;
+      }
+    });
+
+  }
+
+  showDialogue() {
+    if(!this.dialogueHidden) {
+      return false;
+    }
+
+    this.tweens.add({
+      targets: [this.dialogueFrame, this.dialogueMask],
+      ease: 'Cubic',
+      y: "-=" + this.dialogueFrame.height,
+      duration: 300,
+      onStart: () => {
+        this.inTransition = true;
+      },
+      onComplete: () => {
+        this.inTransition = false;
+        this.dialogueHidden = false;
+      }
+    });
   }
 
 }

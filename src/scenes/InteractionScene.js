@@ -61,8 +61,15 @@ export default class InteractionScene extends IsoScene {
       standpoint: crystalStandpoint,
       facing: 'NorthEast',
       interaction: () => {
-        this.HUD.dialogue.slideOpen();
-        this.HUD.dialogue.say("It's some green rocks.");
+        this.HUD.showDialogue();
+        this.HUD.dialogueFrame.addPanel({
+          body: "It's some green rocks",
+          button: "x",
+          buttonCallback: () => {
+            this.HUD.dialogueFrame.stack.clear();
+            this.HUD.hideDialogue();
+          }
+        });
       }
     });
 

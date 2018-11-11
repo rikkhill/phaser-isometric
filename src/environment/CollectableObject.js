@@ -9,9 +9,20 @@ export default class CollectableObject extends Interactable {
 
     this.pickupLine = config.pickupLine;
 
+    // Need some persistent reference to HUD for the callback
+    // because this object will be destroyed before it's run
+    const HUD = this.scene.HUD;
+
     this.interaction = () => {
-      this.scene.HUD.dialogue.slideOpen();
-      this.scene.HUD.dialogue.say(this.pickupLine);
+      this.scene.HUD.showDialogue();
+      this.scene.HUD.dialogueFrame.addPanel({
+        body: this.pickupLine,
+        button: "x",
+        buttonCallback: () => {
+          HUD.dialogueFrame.stack.clear();
+          HUD.hideDialogue();
+        }
+      });
       this.scene.state.isGiven(this.key, this.itemConfig);
       this.destroy();
     };
