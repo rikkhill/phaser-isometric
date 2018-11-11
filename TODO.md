@@ -24,4 +24,11 @@
 
 - Dynamically redraw inventory on game state update (case for game state living with UI)
 - Entrypoint to dialogue scripts from inventory items
-````
+
+## Camera
+
+- Add a focus object that the camera follows around
+
+## Scene management
+
+- Specific logic to handle transfer from one scene to another (camera fade, state, etc.)
