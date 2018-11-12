@@ -1,6 +1,6 @@
 import 'phaser';
 
-export class DialogueButton extends Phaser.GameObjects.Container {
+export default class DialogueButton extends Phaser.GameObjects.Container {
   constructor(config) {
     super(config.scene, config.x, config.y);
     this.width = config.width;

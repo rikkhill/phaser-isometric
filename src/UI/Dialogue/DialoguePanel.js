@@ -1,7 +1,7 @@
 import 'phaser';
 import DialogueOptionStack from './DialogueOptionStack';
-import {DialogueButton} from "./DialogueButton";
-import DialogueOption from "./DialogueOption";
+import DialogueButton from "./DialogueButton";
+import DialogueContinuation from "./DialogueContinuation";
 
 export default class DialoguePanel extends Phaser.GameObjects.Container {
 
@@ -72,26 +72,10 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
 
     // Add body text
     if(this.continuation) {
-      this.continueOption = new DialogueOption({
+      this.continueOption = new DialogueContinuation({
         scene: this.scene,
         x: this.width / 2,
         y: this.height,
-        text: "...",
-        value: "whatever",
-        style: {
-          fontFamily: 'Open Sans, sans-serif',
-          fontSize: 30,
-          color: '#aaffaa',
-          fontStyle: "",
-          align: 'center'
-        },
-        hoverStyle: {
-          fontFamily: 'Open Sans, sans-serif',
-          fontSize: 30,
-          color: '#448844',
-          fontStyle: 'bold',
-          align: 'center'
-        },
         callback: this.continuationCallback
       });
 

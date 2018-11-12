@@ -3,7 +3,6 @@
 ## Dialogue UI
 
 - Make scrollbar nicer / more tightly-coupled to the dialogue stack/frame
-- Improve continuations so they disappear when clicked
 
 ## Dialogue System
 
