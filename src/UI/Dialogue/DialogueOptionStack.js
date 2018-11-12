@@ -17,8 +17,6 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
 
     for(let option of this.options) {
 
-      console.log("Adding option:", option);
-
       let dialogueOption = this.scene.add.existing(new DialogueOption({
         scene: this.scene,
         x: 0,
@@ -46,24 +44,6 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
       y: 0,
       duration: 100,
       onComplete: () => {
-        console.log(selectedOption);
-        /*
-        const newText = this.scene.add.text(
-          0, 0,
-          selectedOption.text,
-          {
-            fontFamily: 'Gill Sans, sans-serif',
-            fontSize: 14,
-            color: '#CCCCCC',
-            fontStyle: '',
-            wordWrap: {
-              width: this.width - 50,
-              useAdvancedWrap: true
-            }
-          });
-
-        this.add(newText);
-        */
         selectedOption.destroy();
         this.height = 0; //newText.displayHeight;
         this.parentContainer.recalculateHeight();

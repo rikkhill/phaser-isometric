@@ -45,14 +45,14 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
 
       this.add(this.header);
 
-      this.height += this.header.displayHeight + 10;
+      this.height += this.header.displayHeight + 15;
 
     }
 
     // Add body text
     if(this.bodyText) {
       this.body = this.scene.add.text(
-        30, this.displayHeight + 5,
+        30, this.displayHeight,
         this.bodyText,
         {
           fontFamily: 'Open Sans, sans-serif',
@@ -67,7 +67,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
 
       this.add(this.body);
 
-      this.height += this.body.displayHeight + 10;
+      this.height += this.body.displayHeight + 5;
     }
 
     // Add body text
@@ -90,21 +90,21 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
       this.options = new DialogueOptionStack({
         scene: this.scene,
         x: 30,
-        y: this.displayHeight + 5,
+        y: this.displayHeight,
         width: this.width,
         options: this.optionsText,
         callback: this.optionsCallback
       });
 
       this.add(this.options);
-      this.height += this.options.displayHeight + 10;
+      this.height += this.options.displayHeight + 5;
     }
 
     // Add button
     if(this.buttonText) {
       this.button = new DialogueButton({
         x: 30,
-        y: this.displayHeight + 5,
+        y: this.displayHeight,
         scene: this.scene,
         width: this.width - 60,
         height: 40,
@@ -126,7 +126,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
       this.scene.add.existing(this.button);
       this.add(this.button);
 
-      this.height += this.button.displayHeight + 10;
+      this.height += this.button.displayHeight + 5;
     }
 
   }
@@ -137,23 +137,23 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
     let height = 0;
 
     if(this.header) {
-      height += this.header.displayHeight + 10;
+      height += this.header.displayHeight + 15;
     }
 
     if(this.body) {
       height += this.body.displayHeight + 5
     }
 
-    if(this.continuationOption) {
-      height += this.continueOption.displayHeight + 10;
+    if(this.continueOption) {
+      height += this.continueOption.displayHeight + 5;
     }
 
     if(this.options) {
-      height += this.options.displayHeight + 10;
+      height += this.options.displayHeight + 5;
     }
 
     if(this.button) {
-      height += this.button.displayHeight + 10;
+      height += this.button.displayHeight + 5;
     }
 
     this.height = height;

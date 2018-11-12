@@ -18,8 +18,8 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
       y: this.height,
       text: "...",
       value: 0,
-      style: {fontFamily: 'Gill Sans, sans-serif', fontSize: 26, color: '#aaffaa', fontStyle: ""},
-      hoverStyle: {fontFamily: 'Gill Sans, sans-serif', fontSize: 26, color: '#448844', fontStyle: 'bold'},
+      style: {fontFamily: 'Gill Sans, sans-serif', fontSize: 18, color: '#aaffaa', fontStyle: ""},
+      hoverStyle: {fontFamily: 'Gill Sans, sans-serif', fontSize: 18, color: '#448844', fontStyle: 'bold'},
       callback: () => this.continue()
     }));
 

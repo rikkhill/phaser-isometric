@@ -8,6 +8,7 @@ export default class DialogueParser extends ink.Story {
     this.HUD = HUD;
 
     this.currentHeader = null;
+    this.issueResponse = false;
 
     // Bind external state functions to the story
     this.BindExternalFunction('hasMet', this.gameState.hasMet);
@@ -77,12 +78,10 @@ export default class DialogueParser extends ink.Story {
     if(this.canContinue) {
       // This MUST be a fragment of regular dialogue
       this.HUD.dialogueFrame.stack.addPanel({
-        header: this.currentHeader,
+        header: this.issueResponse ? undefined : this.currentHeader,
         body: this.currentText,
-        continuation: "Continue...",
-        continuationCallback: () => {
-          this.sayNext()
-        }
+        continuation: this.issueResponse ? undefined : "Continue...",
+        continuationCallback: () => { this.sayNext(); }
       });
 
     } else {
@@ -112,6 +111,9 @@ export default class DialogueParser extends ink.Story {
 
   giveResponse(choice) {
     this.ChooseChoiceIndex(choice);
+    this.issueResponse = true;
+    this.sayNext();
+    this.issueResponse = false;
     this.sayNext();
   }
 
