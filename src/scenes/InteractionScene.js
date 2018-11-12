@@ -26,7 +26,7 @@ export default class InteractionScene extends IsoScene {
     this.load.image("banana", "assets/banana.png");
     this.load.image("note", "assets/note.png");
     this.load.image("whiskey", "assets/whiskey.png");
-    this.load.json('cliveScript', "assets/InkScripts/clive.json");
+    this.load.json('cliveScript', "assets/InkScripts/bartleby.json");
   }
 
   create(state) {

@@ -8,11 +8,9 @@
 
 ## Dialogue System
 
-- Figure out where to put the bloody thing
 - Allow arbitrary running of dialogue scripts from anywhere (e.g. inventory items)
-- refactor all the dialogue gubbins currently in StaticNPC into the dialogue runner object
-- Tidy up script flow
 - Generally play around with new UI and scripts to see how to best write them
+- Don't show a continuation after dialogue choice; instead show next dialogue fragment
 
 ## Game state
 

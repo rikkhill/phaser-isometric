@@ -47,6 +47,7 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
       duration: 100,
       onComplete: () => {
         console.log(selectedOption);
+        /*
         const newText = this.scene.add.text(
           0, 0,
           selectedOption.text,
@@ -62,8 +63,9 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
           });
 
         this.add(newText);
+        */
         selectedOption.destroy();
-        this.height = newText.displayHeight;
+        this.height = 0; //newText.displayHeight;
         this.parentContainer.recalculateHeight();
 
         if(this.callback) {

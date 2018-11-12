@@ -1,9 +1,13 @@
 import * as ink from 'inkjs'
 
 export default class DialogueParser extends ink.Story {
-  constructor(script, state) {
+  constructor(script, state, HUD) {
     super(script);
     this.gameState = state;
+
+    this.HUD = HUD;
+
+    this.currentHeader = null;
 
     // Bind external state functions to the story
     this.BindExternalFunction('hasMet', this.gameState.hasMet);
@@ -16,7 +20,6 @@ export default class DialogueParser extends ink.Story {
   // Controls state-setting, cutscenes, etc...
   parse(content) {
     const direction = content.match(/^>>> ([A-Z]+) ([a-zA-Z_]+) ?(.*)/);
-    console.log(direction);
 
     if(direction) {
       // This is a command to do something
@@ -30,6 +33,10 @@ export default class DialogueParser extends ink.Story {
 
       if(direction[1] === "ISGIVEN"){
         this.gameState.isGiven(direction[2]);
+      }
+
+      if(direction[1] === "SETHEADER"){
+        this.currentHeader = direction[2];
       }
 
       return {
@@ -50,21 +57,62 @@ export default class DialogueParser extends ink.Story {
 
     return {
       meta: false,
-      text: content
+      text: content,
+      header: this.currentHeader
     };
 
   }
 
-  getNext() {
-    let fragment;
+  // Do the next thing in the script
+  sayNext() {
 
-    // Continue until we return something that isn't metadata
-    do {
-      fragment = this.parse(this.Continue());
-    } while (fragment.meta);
+    // Keep parsing the script until we come to something we need to display
+    if(this.canContinue) {
+      do {
+        this.Continue();
+      } while(this.parse(this.currentText).meta && this.canContinue);
+    }
 
-    console.log("Fragment:", fragment);
-    return fragment;
+    // Check again if this can continue
+    if(this.canContinue) {
+      // This MUST be a fragment of regular dialogue
+      this.HUD.dialogueFrame.stack.addPanel({
+        header: this.currentHeader,
+        body: this.currentText,
+        continuation: skipContinuation ? undefined : "continue...",
+        continuationCallback: () => {
+          this.sayNext()
+        }
+      });
+
+    } else {
+      // Anything here is either a decision point or the end of the script
+      if(this.currentChoices.length > 0) {
+
+        // Make a choice panel in the dialogue stack
+        this.HUD.dialogueFrame.stack.addPanel({
+          header: this.currentHeader,
+          options: this.currentChoices,
+          optionsCallback: (i) => { this.giveResponse(i); }
+        });
+      } else {
+        // Say it and end
+        this.HUD.dialogueFrame.stack.addPanel({
+          header: this.currentHeader,
+          body: this.currentText,
+          button: "x",
+          buttonCallback: () => {
+            this.HUD.dialogueFrame.stack.clear();
+            this.HUD.hideDialogue();
+          }
+        });
+      }
+    }
+  }
+
+  giveResponse(choice) {
+    this.ChooseChoiceIndex(choice);
+    this.sayNext();
   }
 
 
