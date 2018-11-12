@@ -21,7 +21,7 @@ export default class TitleBar extends Phaser.GameObjects.Container {
       this.height / 2,
       "",
       {
-        fontFamily: 'Garamond, serif',
+        fontFamily: 'Almendra, serif',
         fontSize: 16,
         color: '#2a2a2a',
         fontStyle: 'bold',
@@ -37,6 +37,6 @@ export default class TitleBar extends Phaser.GameObjects.Container {
   }
 
   setTitle(text) {
-    this.title.setText(text);
+    this.title.setText(text.toUpperCase());
   }
 }

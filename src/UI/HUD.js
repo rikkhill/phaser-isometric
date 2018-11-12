@@ -35,6 +35,12 @@ export default class HUD extends Phaser.Scene {
     this.load.image('bananaInventory', 'assets/banana.png');
     this.load.image('noteInventory', 'assets/note.png');
     this.load.image('whiskeyInventory', 'assets/whiskey.png');
+
+    this.load.script(
+      'webfont',
+      'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js'
+    );
+
   }
 
   create() {
@@ -53,6 +59,13 @@ export default class HUD extends Phaser.Scene {
 
     // One day soon we will add this sparkle to denote new items in sidebar areas
     //const newSparkle = this.add.sprite(300, 300, 'new').play("newSparkle").setScale(0.4); */
+
+
+    WebFont.load({
+      google: {
+        families: ["Almendra", "Open Sans"]
+      }
+    });
 
 
     // The box where inventory items are displayed

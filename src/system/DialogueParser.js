@@ -79,7 +79,7 @@ export default class DialogueParser extends ink.Story {
       this.HUD.dialogueFrame.stack.addPanel({
         header: this.currentHeader,
         body: this.currentText,
-        continuation: skipContinuation ? undefined : "continue...",
+        continuation: "Continue...",
         continuationCallback: () => {
           this.sayNext()
         }

@@ -28,7 +28,7 @@ export default class NotesBox extends SlidingContainer {
       0,
       "BEVIN'S NOTES",
       {
-        fontFamily: 'Garamond, serif',
+        fontFamily: 'Almendra, serif',
         fontSize: 16,
         color: '#2a2a2a',
         fontStyle: 'bold',

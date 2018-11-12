@@ -33,8 +33,8 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
         10, this.displayHeight + 10,
         this.headerText,
         {
-          fontFamily: 'Garamond, serif',
-          fontSize: 16,
+          fontFamily: 'Almendra, serif',
+          fontSize: 20,
           color: '#CCCCCC',
           fontStyle: 'bold',
           wordWrap: {
@@ -55,7 +55,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
         30, this.displayHeight + 5,
         this.bodyText,
         {
-          fontFamily: 'Gill Sans, sans-serif',
+          fontFamily: 'Open Sans, sans-serif',
           fontSize: 14,
           color: '#CCCCCC',
           fontStyle: '',
@@ -79,14 +79,14 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
         text: "...",
         value: "whatever",
         style: {
-          fontFamily: 'Gill Sans, sans-serif',
+          fontFamily: 'Open Sans, sans-serif',
           fontSize: 30,
           color: '#aaffaa',
           fontStyle: "",
           align: 'center'
         },
         hoverStyle: {
-          fontFamily: 'Gill Sans, sans-serif',
+          fontFamily: 'Open Sans, sans-serif',
           fontSize: 30,
           color: '#448844',
           fontStyle: 'bold',

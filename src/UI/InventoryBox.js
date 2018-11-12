@@ -32,7 +32,7 @@ export default class InventoryBox extends SlidingContainer {
       0,
       "INVENTORY",
       {
-        fontFamily: 'Garamond, serif',
+        fontFamily: 'Almendra',
         fontSize: 16,
         color: '#2a2a2a',
         fontStyle: 'bold',

@@ -4,7 +4,6 @@
 
 - Make scrollbar nicer / more tightly-coupled to the dialogue stack/frame
 - Improve continuations so they disappear when clicked
-- Snazzier font choices
 
 ## Dialogue System
 
@@ -22,6 +21,7 @@
 
 - Dynamically redraw inventory on game state update (case for game state living with UI)
 - Entrypoint to dialogue scripts from inventory items
+- Enable Almendra font for inventory and notes headers (don't know why it doesn't work)
 
 ## Camera
 
