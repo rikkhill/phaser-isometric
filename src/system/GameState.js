@@ -1,8 +1,10 @@
 // Object for managing the state of the game
 
 export default class GameState {
-  constructor() {
-    // Still don't know the best way of dealing with this
+  constructor(HUD) {
+
+
+    this.HUD = HUD;
 
     // Items in the inventory
     this.inventory = {};
@@ -41,6 +43,8 @@ export default class GameState {
         key: itemKey + "Inventory",
         ...itemConfig
       };
+
+      this.HUD.inventory.drawInventory(this.inventory);
       return true;
     };
 
