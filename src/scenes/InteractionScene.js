@@ -63,6 +63,7 @@ export default class InteractionScene extends IsoScene {
       standpoint: crystalStandpoint,
       facing: 'NorthEast',
       interaction: () => {
+        this.HUD.showDialogue();
         (new DialogueParser(this.cache.json.get('greenRockScript'), this.state)).sayNext();
       }
     });

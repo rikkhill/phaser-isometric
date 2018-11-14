@@ -27,7 +27,7 @@ export default class DialogueParser extends ink.Story {
   // Takes story content and parses it.
   // Controls state-setting, cutscenes, etc...
   parse(content) {
-    const direction = content.match(/^>>> ([A-Z]+) ([a-zA-Z_]+) ?(.*)/);
+    const direction = content.match(/^>>> ([A-Z]+) ?([a-zA-Z_ ]*)?/);
 
     if(direction) {
       // This is a command to do something
@@ -36,7 +36,7 @@ export default class DialogueParser extends ink.Story {
       }
 
       if(direction[1] === "LEARNS"){
-        this.gameState.learns(direction[2], direction[3]);
+        this.gameState.learns(direction[2]);
       }
 
       if(direction[1] === "ISGIVEN"){
@@ -89,40 +89,6 @@ export default class DialogueParser extends ink.Story {
     return !this.canContinue && this.currentChoices.length > 0;
   }
 
-  emitDialogue(content) {
-    console.log(content);
-    console.log(this.issueResponse);
-    this.gameState.HUD.dialogueFrame.stack.addPanel({
-      header: this.issueResponse ? undefined : content.header,
-      body: content.body,
-      continuation: this.issueResponse ? undefined : "Continue...",
-      continuationCallback: () => { this.sayNext(); }
-    });
-
-    if(this.issueResponse) {
-      this.issueResponse = false;
-    }
-  }
-
-  sayDialogue() {
-    this.gameState.HUD.dialogueFrame.stack.addPanel({
-      header: this.issueResponse ? undefined : this.currentHeader,
-      body: this.parse(this.currentText).text,
-      continuation: this.issueResponse ? undefined : "Continue...",
-      continuationCallback: () => { this.sayNext(); }
-    });
-  }
-
-
-
-  giveChoice() {
-    this.gameState.HUD.dialogueFrame.stack.addPanel({
-      header: this.currentHeader,
-      //body: this.currentText,
-      options: this.currentChoices,
-      optionsCallback: (i) => { this.giveResponse(i); }
-    });
-  }
 
   getFragment() {
     return this.parse(this.currentText);
@@ -176,7 +142,7 @@ export default class DialogueParser extends ink.Story {
 
       this.gameState.HUD.dialogueFrame.stack.addPanel({
         header: fragment.header,
-        body: fragment.text,
+        //body: fragment.text,
         options: this.currentChoices,
         optionsCallback: (i) => { this.giveResponse(i); }
       });

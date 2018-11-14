@@ -119,16 +119,16 @@ export default class HUD extends Phaser.Scene {
       x: 100,
       y: this.height,
       width: 600,
-      height: 200
+      height: 300
     });
 
     const maskShape = this.make.graphics();
     maskShape.fillStyle(0xFFFFFF);
     maskShape.fillRectShape(new Phaser.Geom.Rectangle(
       100,
-      400,
+      300,
       600,
-      200
+      300
     ));
 
     this.dialogueMask = maskShape.createGeometryMask();

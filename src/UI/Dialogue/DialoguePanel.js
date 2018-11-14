@@ -132,8 +132,6 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
   }
 
   recalculateHeight() {
-    console.log("Height recalculated in panel");
-
     let height = 0;
 
     if(this.header) {

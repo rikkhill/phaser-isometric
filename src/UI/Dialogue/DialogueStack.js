@@ -50,11 +50,7 @@ export default class DialogueStack extends Phaser.GameObjects.Container {
 
     this.heightOffset += panel.height;
 
-    this.scene.tweens.add({
-      targets: this,
-      y: "-=" + panel.height,
-      duration: 100,
-    });
+    this.adjustHeight();
 
   }
 
@@ -69,4 +65,19 @@ export default class DialogueStack extends Phaser.GameObjects.Container {
     this.heightOffset = 0;
     this.y = this.unadjustedY;
   }
+
+  adjustHeight() {
+
+    if(this.tween) {
+      this.tween.stop();
+    }
+
+    this.tween = this.scene.tweens.add({
+      targets: this,
+      y: this.unadjustedY - this.heightOffset,
+      duration: 100,
+    });
+  }
+
+
 }
