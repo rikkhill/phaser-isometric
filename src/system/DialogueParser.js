@@ -59,17 +59,19 @@ export default class DialogueParser extends ink.Story {
         this.currentHeader = "";
       }
 
-      return {
-        meta: true
-      };
-    }
+      if(direction[1] === "PAUSE"){
+        return {
+          meta: true,
+          text: "",
+          header: "",
+          pause: true
+        };
+      }
 
-    const dialogue = content.match(/([A-Z]+): (.*)/);
-    if(dialogue) {
       return {
-        meta: false,
-        speaker: dialogue[1],
-        text: dialogue[2]
+        meta: true,
+        text: "",
+        header: this.currentHeader
       };
     }
 
@@ -88,13 +90,24 @@ export default class DialogueParser extends ink.Story {
   }
 
   emitDialogue(content) {
-    this.gameState.HUD.dialogueFrame.stack.addPanel(content);
+    console.log(content);
+    console.log(this.issueResponse);
+    this.gameState.HUD.dialogueFrame.stack.addPanel({
+      header: this.issueResponse ? undefined : content.header,
+      body: content.body,
+      continuation: this.issueResponse ? undefined : "Continue...",
+      continuationCallback: () => { this.sayNext(); }
+    });
+
+    if(this.issueResponse) {
+      this.issueResponse = false;
+    }
   }
 
   sayDialogue() {
     this.gameState.HUD.dialogueFrame.stack.addPanel({
       header: this.issueResponse ? undefined : this.currentHeader,
-      body: this.currentText,
+      body: this.parse(this.currentText).text,
       continuation: this.issueResponse ? undefined : "Continue...",
       continuationCallback: () => { this.sayNext(); }
     });
@@ -111,55 +124,80 @@ export default class DialogueParser extends ink.Story {
     });
   }
 
-  // Do the next thing in the script
+  getFragment() {
+    return this.parse(this.currentText);
+  }
+
+  // Continue through the script until we hit something that
+  // requires user interaction
   sayNext() {
+
+    let fragment = {};
 
     while(this.canContinue) {
       this.Continue();
-      this.parseTags();
-      this.dialogueStack.unshift({
-        header: this.currentHeader,
-        body: this.currentText
+      console.log("Current text: ", this.currentText);
+      fragment = this.getFragment();
+
+      if(fragment.pause) {
+        // If there's a pause command, break out of the loop
+        // It'll resume when the callback is fulfilled
+        this.gameState.HUD.dialogueFrame.stack.addPanel({
+          header: fragment.header,
+          body: fragment.text,
+          continuation: this.issueResponse ? undefined : "Continue...",
+          continuationCallback: () => { this.sayNext(); }
+        });
+        break;
+      }
+
+      if(fragment.meta) {
+        continue;
+      }
+
+      // If we're here, it means we should display text
+      this.gameState.HUD.dialogueFrame.stack.addPanel({
+        header: this.issueResponse ? "" : fragment.header,
+        body: fragment.text,
+      });
+
+      if(this.issueResponse) {
+        this.issueResponse = false;
+      }
+    }
+
+    // If we're here it means we can't continue, so it's either a choice point
+    // or it's the end of the script
+
+    if(this.isChoice()) {
+
+      // Show a choice. The callback kicks off the next wave
+      // of dialogue
+
+      this.gameState.HUD.dialogueFrame.stack.addPanel({
+        header: fragment.header,
+        body: fragment.text,
+        options: this.currentChoices,
+        optionsCallback: (i) => { this.giveResponse(i); }
+      });
+    } else if (!this.canContinue) {
+
+      // We're at the end of the story. Close it.
+
+      this.gameState.HUD.dialogueFrame.stack.addPanel({
+        button: "x",
+        buttonCallback: () => {
+          this.gameState.HUD.dialogueFrame.stack.clear();
+          this.gameState.HUD.hideDialogue();
+        }
       });
     }
 
-    while(this.dialogueStack.length > 0) {
-      console.log(this.dialogueStack);
-      this.emitDialogue(this.dialogueStack.pop());
-    }
-
-    if(this.isChoice()) {
-      this.giveChoice();
-    } /*else {
-      this.sayDialogue();
-    }*/
-
-   /* } else {
-      // Anything here is either a decision point or the end of the script
-      if(this.isChoice()) {
-        // Make a choice panel in the dialogue stack
-        this.giveChoice();
-
-     /*( } else {
-        // Say it and end
-        this.gameState.HUD.dialogueFrame.stack.addPanel({
-          //header: this.currentHeader,
-          //body: this.currentText,
-          button: "x",
-          buttonCallback: () => {
-            this.gameState.HUD.dialogueFrame.stack.clear();
-            this.gameState.HUD.hideDialogue();
-          }
-        });
-      }
-    } */
   }
 
   giveResponse(choice) {
     this.ChooseChoiceIndex(choice);
     this.issueResponse = true;
-    this.sayNext();
-    this.issueResponse = false;
     this.sayNext();
   }
 

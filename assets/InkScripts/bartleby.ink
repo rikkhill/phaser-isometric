@@ -18,32 +18,32 @@ EXTERNAL hasItem(item)
 - else: -> introduction
 }
 = introduction
-Hello there. My name's Bevin. #>>> HEADER Bevin
+>>> HEADER Bevin
+* Hello there, stranger! My name is Bevin.
 
-Why hello there, Bevin. My name is Bartlebly. #>>> HEADER Bartleby #>>> MEETS bartleby
+>>> HEADER Bartleby
+Why hello there, Bevin. My name is Bartlebly.
+>>> MEETS bartleby
 
 -> already_met
 
 = already_met
-* Hello Bartleby. I was wondering if I could ask you a favour #>>> HEADER Bevin
-
--> favour
-* Hello Bartleby. I was wondering if I could ask you a question 
-
--> question
+>>> HEADER Bevin
+* Hello Bartleby. I was wondering if I could ask you a favour -> favour
+* Hello Bartleby. I was wondering if I could ask you a question -> question
 
 = favour
 
 
-
-No. Piss off. #>>> HEADER Bartleby
+>>> HEADER Bartleby
+No. Piss off.
 -> END
 
 = question
 
 
-
-No. Piss off. #>>> HEADER Bartleby
+>>> HEADER Bartleby
+No. Piss off. 
 
 -> END
 
