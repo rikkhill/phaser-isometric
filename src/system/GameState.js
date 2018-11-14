@@ -15,6 +15,9 @@ export default class GameState {
     // Whether the character has knowledge of things
     this.knows = {};
 
+    // Where the character lies on various scales
+    this.scales = {};
+
 
     // We have to declare methods like this to guarantee
     // it'll be bound to this object no matter where
@@ -50,6 +53,31 @@ export default class GameState {
 
     this.hasItem = (itemKey) => {
       return this.inventory.hasOwnProperty(itemKey);
+    };
+
+    this.incScale = (scaleKey) => {
+      if(!this.scales.hasOwnProperty(scaleKey)) {
+        this.scales[scaleKey] = 0;
+      }
+
+      this.scales[scaleKey]++;
+    };
+
+    this.decScale = (scaleKey) => {
+      if(!this.scales.hasOwnProperty(scaleKey)) {
+        this.scales[scaleKey] = 0;
+      }
+
+      this.scales[scaleKey]--;
+    };
+
+    this.onScale = (scaleKey) => {
+      if(!this.scales.hasOwnProperty(scaleKey)) {
+        this.scales[scaleKey] = 0;
+      }
+
+      return this.scales[scaleKey];
+
     };
 
     window.state = this;

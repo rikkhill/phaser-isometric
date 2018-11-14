@@ -3,6 +3,7 @@ import StaticNPC from "../sprites/StaticNPC";
 import IsoScene from "./IsoScene";
 import Interactable from "../environment/Interactable";
 import CollectableObject from "../environment/CollectableObject";
+import DialogueParser from '../system/DialogueParser';
 
 export default class InteractionScene extends IsoScene {
   constructor() {
@@ -27,6 +28,7 @@ export default class InteractionScene extends IsoScene {
     this.load.image("note", "assets/note.png");
     this.load.image("whiskey", "assets/whiskey.png");
     this.load.json('cliveScript', "assets/InkScripts/bartleby.json");
+    this.load.json('greenRockScript', "assets/InkScripts/greenRocks.json");
   }
 
   create(state) {
@@ -61,15 +63,7 @@ export default class InteractionScene extends IsoScene {
       standpoint: crystalStandpoint,
       facing: 'NorthEast',
       interaction: () => {
-        this.HUD.showDialogue();
-        this.HUD.dialogueFrame.addPanel({
-          body: "It's some green rocks",
-          button: "x",
-          buttonCallback: () => {
-            this.HUD.dialogueFrame.stack.clear();
-            this.HUD.hideDialogue();
-          }
-        });
+        (new DialogueParser(this.cache.json.get('greenRockScript'), this.state)).sayNext();
       }
     });
 

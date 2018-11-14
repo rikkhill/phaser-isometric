@@ -12,7 +12,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.direction = config.direction;
     this.sheetWidth = config.sheetWidth;
-    this.script = new DialogueParser(config.script, this.scene.state, this.scene.HUD);
+    this.script = new DialogueParser(config.script, this.scene.state);
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
     this.depthBonus = 1;

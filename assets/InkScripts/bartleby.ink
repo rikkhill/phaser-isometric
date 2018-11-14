@@ -13,30 +13,19 @@ EXTERNAL doesKnow(knowledge)
 EXTERNAL hasItem(item)
 
 ===begin===
-
->>> SETHEADER Bevin
-
 {
 - hasMet("bartleby"): -> already_met
 - else: -> introduction
 }
-
 = introduction
-Hello there. My name's Bevin.
+Hello there. My name's Bevin. #>>> HEADER Bevin
 
->>> SETHEADER Bartleby
-
-Why hello there, Bevin. My name is Bartlebly.
-
->>> MEETS bartleby
+Why hello there, Bevin. My name is Bartlebly. #>>> HEADER Bartleby #>>> MEETS bartleby
 
 -> already_met
 
 = already_met
-
->>> SETHEADER Bevin
-
-* Hello Bartleby. I was wondering if I could ask you a favour 
+* Hello Bartleby. I was wondering if I could ask you a favour #>>> HEADER Bevin
 
 -> favour
 * Hello Bartleby. I was wondering if I could ask you a question 
@@ -45,16 +34,16 @@ Why hello there, Bevin. My name is Bartlebly.
 
 = favour
 
->>> SETHEADER Bartleby
 
-No. Piss off.
+
+No. Piss off. #>>> HEADER Bartleby
 -> END
 
 = question
 
->>> SETHEADER Bartleby
 
-No. Piss off.
+
+No. Piss off. #>>> HEADER Bartleby
 
 -> END
 
