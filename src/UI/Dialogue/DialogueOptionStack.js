@@ -23,8 +23,8 @@ export default class DialogueOptionStack extends Phaser.GameObjects.Container {
         y: this.height,
         text: option.text,
         value: option.index,
-        style: {fontFamily: 'Gill Sans, sans-serif', fontSize: 14, color: '#aaffaa', fontStyle: ""},
-        hoverStyle: {fontFamily: 'Gill Sans, sans-serif', fontSize: 14, color: '#448844', fontStyle: 'bold'},
+        style: {fontFamily: 'Gill Sans, sans-serif', fontSize: 14, color: '#aaffaa', fontStyle: ''},
+        hoverStyle: {fontFamily: 'Gill Sans, sans-serif', fontSize: 14, color: '#448844', fontStyle: ''},
         callback: i => this.selectOption(i)
       }));
 

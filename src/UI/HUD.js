@@ -3,8 +3,6 @@ import InventoryBox from './InventoryBox';
 import NotesBox from './NotesBox';
 import TitleBar from './TitleBar';
 import SideBar from './SideBar';
-
-// All imports below this line are temporary test imports and should eventually be removed
 import DialogueFrame from './Dialogue/DialogueFrame';
 
 
@@ -148,6 +146,8 @@ export default class HUD extends Phaser.Scene {
       return false;
     }
 
+    this.unblockWorld();
+
     this.tweens.add({
       targets: [this.dialogueFrame, this.dialogueMask],
       ease: 'Cubic',
@@ -169,6 +169,8 @@ export default class HUD extends Phaser.Scene {
       return false;
     }
 
+    this.blockWorld();
+
     this.tweens.add({
       targets: [this.dialogueFrame, this.dialogueMask],
       ease: 'Cubic',
@@ -182,6 +184,24 @@ export default class HUD extends Phaser.Scene {
         this.dialogueHidden = false;
       }
     });
+  }
+
+  blockWorld() {
+    if(this.transparency) {
+      return;
+    }
+    this.transparency = this.add.zone(0, 0, this.width, this.height);
+    this.transparency.setOrigin(0);
+
+    this.transparency.setInteractive({cursor: "default"});
+
+  }
+
+  unblockWorld() {
+    if(this.transparency) {
+      this.transparency.destroy();
+      this.transparency = null;
+    }
   }
 
 }

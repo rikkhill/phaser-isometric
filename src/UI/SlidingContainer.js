@@ -44,6 +44,8 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
       return false;
     }
 
+    this.scene.unblockWorld();
+
     this.tween = this.scene.tweens.add({
       targets: this,
       x: this.closedX,
@@ -64,6 +66,8 @@ export default class SlidingContainer extends Phaser.GameObjects.Container {
     if(this.open) {
       return false;
     }
+
+    this.scene.blockWorld();
 
     this.tween = this.scene.tweens.add({
       targets: this,
