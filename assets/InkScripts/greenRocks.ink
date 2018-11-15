@@ -25,11 +25,11 @@ EXTERNAL onScale(scale)
 }
 
 * [Look at the {onScale("greenrocks") > 3: lovely }green rocks] -> look
-* [Don't look at the {onScale("greenrocks") > 3: lovely }green rocks] -> END
+* [Don't look at the {onScale("greenrocks") > 3:lovely }green rocks] -> END
 
 = look_choice
-+ [Keep looking at the {onScale("greenrocks") > 3: lovely }green rocks] -> look
-+ [Stop looking at the {onScale("greenrocks") > 3: lovely }green rocks] -> stop
++ [Keep looking at the {onScale("greenrocks") > 3:lovely }green rocks] -> look
++ [Stop looking at the {onScale("greenrocks") > 3:lovely }green rocks] -> stop
 
 = look
 >>> NOHEADER

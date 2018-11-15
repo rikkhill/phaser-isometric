@@ -104,7 +104,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
     if(this.buttonText) {
       this.button = new DialogueButton({
         x: 30,
-        y: this.displayHeight,
+        y: this.displayHeight + 10, // We always want buttons to have some space
         scene: this.scene,
         width: this.width - 60,
         height: 40,
@@ -126,7 +126,7 @@ export default class DialoguePanel extends Phaser.GameObjects.Container {
       this.scene.add.existing(this.button);
       this.add(this.button);
 
-      this.height += this.button.displayHeight + 5;
+      this.height += this.button.displayHeight + 15;
     }
 
   }

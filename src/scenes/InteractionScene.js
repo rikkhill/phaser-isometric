@@ -29,20 +29,23 @@ export default class InteractionScene extends IsoScene {
     this.load.image("whiskey", "assets/whiskey.png");
     this.load.json('cliveScript', "assets/InkScripts/bartleby.json");
     this.load.json('greenRockScript', "assets/InkScripts/greenRocks.json");
+    this.load.json('noteScript', "assets/InkScripts/note.json");
   }
 
   create(state) {
     this.state = state;
     this.mapData =  this.cache.json.get(this.key + 'Map');
 
+    // Probably want some registerHUD method on the base class for this
     this.HUD = this.scene.get("HUD");
     this.HUD.title.setTitle(this.title);
+    this.HUD.state = this.state;
     //this.enableDebug();
 
     this.buildMap();
 
 
-    // Add sprite
+    // Add PC
     let start = this.getEntryPoint().world();
     this.PC = new MovableSprite({
       scene: this,
@@ -140,7 +143,8 @@ export default class InteractionScene extends IsoScene {
       pickupLine: "It's a note. I'm going to keep hold of this.",
       itemConfig: {
         name: "A handwritten note",
-        description: "\"Run! Run from this place as fast as you possibly can!\""
+        description: "\"Run! Run from this place as fast as you possibly can!\"",
+        script: this.cache.json.get('noteScript')
       }
     });
 
@@ -160,9 +164,6 @@ export default class InteractionScene extends IsoScene {
       standpoint: cliveStandpoint,
       facing: "NorthEast"
     });
-
-    //this.add.image(crystalMarker.x, crystalMarker.y, 'crystal');
-    //crystal.depth = crystalMarker.y * 3;
 
     // Put the camera at the start marker
     const cameraStart = this.stageMarkers["cameraStart"].world();

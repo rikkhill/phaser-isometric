@@ -134,6 +134,7 @@ export default class HUD extends Phaser.Scene {
     this.dialogueMask = maskShape.createGeometryMask();
 
     this.dialogueFrame.setMask(this.dialogueMask);
+    this.dialogueFrame.depth = 500;
     window.dp = this.dialogueFrame;
 
 
