@@ -146,8 +146,6 @@ export default class HUD extends Phaser.Scene {
       return false;
     }
 
-    this.unblockWorld();
-
     this.tweens.add({
       targets: [this.dialogueFrame, this.dialogueMask],
       ease: 'Cubic',
@@ -159,6 +157,7 @@ export default class HUD extends Phaser.Scene {
       onComplete: () => {
         this.inTransition = false;
         this.dialogueHidden = true;
+        this.checkBlock();
       }
     });
 
@@ -168,8 +167,6 @@ export default class HUD extends Phaser.Scene {
     if(!this.dialogueHidden) {
       return false;
     }
-
-    this.blockWorld();
 
     this.tweens.add({
       targets: [this.dialogueFrame, this.dialogueMask],
@@ -182,8 +179,20 @@ export default class HUD extends Phaser.Scene {
       onComplete: () => {
         this.inTransition = false;
         this.dialogueHidden = false;
+        this.checkBlock();
       }
     });
+  }
+
+  // We should block clicks to the underlying scene if
+  // the dialogue frame is set, or if any of the sliding
+  // panels are open
+  checkBlock() {
+    if(!this.dialogueHidden || this.inventory.open || this.notes.open) {
+      this.blockWorld();
+    } else {
+      this.unblockWorld();
+    }
   }
 
   blockWorld() {
