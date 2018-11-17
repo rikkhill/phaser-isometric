@@ -11,7 +11,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.direction = "South"; //config.direction;
     this.cameraZone = "default";
     this.portalZone = "none";
-    this.sheetWidth = 28;// config.sheetWidth;
+    this.sheetWidth = 13;// config.sheetWidth;
     this.originY = 0.75;  // distance between centre of the sprite and it's feet
     this.level = config.level; // The sprite's "height" in the map layers
     this.depthBonus = 1;  // Make the sprite appear in front of environmental objects
@@ -20,7 +20,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
     this.movement = new MovementTracker(this);
 
     // Speed in approximate tiles per second
-    this.speed = 2;
+    this.speed = 1.5;
 
     this.moving = false;
 
@@ -96,8 +96,8 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
         key: this.name + "Walk" + c,
         frames: this.scene.anims.generateFrameNumbers(
           this.name,
-          {start: (i * this.sheetWidth) + 4, end: (i * this.sheetWidth + 11)}),
-        frameRate: 8,
+          {start: (i * this.sheetWidth) + 4, end: (i * this.sheetWidth + 12)}),
+        frameRate: 9,
         repeat: -1,
         yoyo: false
       });

@@ -20,7 +20,7 @@ export default class InteractionScene extends IsoScene {
   preload() {
     this.load.json(this.key + 'Map', 'assets/InteractionScene.json');
     this.load.spritesheet('tiles', 'assets/grassland_tiles.png', { frameWidth: 64, frameHeight: 32 });
-    this.load.spritesheet('skeleton', 'assets/skeleton_knight.png', { frameWidth: 128, frameHeight: 128});
+    this.load.spritesheet('theo', 'assets/theo.png', { frameWidth: 128, frameHeight: 128});
     this.load.spritesheet('clive', 'assets/zombie_0.png', { frameWidth: 128, frameHeight: 128});
     this.load.image("crystal", "assets/crystals/crystal01.png");
     this.load.image("apple", "assets/apple.png");
@@ -51,7 +51,7 @@ export default class InteractionScene extends IsoScene {
       scene: this,
       x: start.x,
       y: start.y,
-      key: 'skeleton',
+      key: 'theo',
       level: 3,  // the tile layer the sprite is level with
     });
 
