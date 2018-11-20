@@ -108,7 +108,7 @@ export default class MovableSprite extends Phaser.GameObjects.Sprite {
         frames: this.scene.anims.generateFrameNumbers(
           this.name,
           {start: (i * this.sheetWidth), end: (i * this.sheetWidth + 3)}),
-        frameRate: 5,
+        frameRate: 2,
         repeat: -1,
         yoyo: true
       });
