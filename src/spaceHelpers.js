@@ -33,4 +33,21 @@ function cardinal(x1, x2, y1, y2) {
 
 }
 
-export {euc, cardinal};
+// Take a Tiled map object with x, y, height and width
+// Return a set of points of its vertices
+function objToPoints(obj) {
+  return [
+    {x: obj.x, y: obj.y},
+    {x: obj.x + obj.width, y: obj.y},
+    {x: obj.x + obj.width, y: obj.y + obj.height},
+    {x: obj.x, y: obj.y + obj.height}
+  ];
+
+}
+
+// Take a list of points and convert them to Phaser.Geom.Points
+function pointsToGeomPoints(points) {
+  points.map(point => new Phaser.Geom.Point(point.x, point.y));
+}
+
+export {euc, cardinal, objToPoints, pointsToGeomPoints};
